@@ -1,5 +1,6 @@
 package ipclub.com.ipclub;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,16 +20,27 @@ public class Dashboard extends AppCompatActivity {
         auth = new Auth(this);
 
         String token = auth.getToken();
-        myToken.setText("Your token: "+token);
+        //myToken.setText("Your token: "+token);
     }
 
     private void initView(){
-        myToken = (TextView) findViewById(R.id.myToken);
+
+        //myToken = (TextView) findViewById(R.id.myToken);
     }
 
     public void logout(View v){
         auth.logout();
         finish();
+    }
+
+    public void goTo(View v){
+
+        switch (v.getId()){
+            case R.id.vocabulary:
+                Intent show = new Intent(this, Vocabulary.class);
+                startActivity(show);
+                break;
+        }
     }
 
 }

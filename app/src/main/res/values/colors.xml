@@ -7,4 +7,12 @@
     <color name="btnGreen">#439a46</color>
     <color name="btnGreenLi">#70ba72</color>
     <color name="white">#ffffff</color>
+    <color name="menuColor">#2196f3</color>
+    <color name="menuBg1">#90A4AE</color>
+    <color name="menuBg2">#8497a1</color>
+    <color name="menuBg3">#919fa6</color>
+    <color name="menuBg4">#7e9099</color>
+    <color name="menuBg5">#7d8e96</color>
+    <color name="menuBg6">#9fadb4</color>
+    <color name="menuBg7">#6d7e86</color>
 </resources>
