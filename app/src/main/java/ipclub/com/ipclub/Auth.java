@@ -8,19 +8,15 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import ipclub.com.ipclub.contents.LoginContent;
+import ipclub.com.ipclub.responses.Responses;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Artak on 8/14/2016.
@@ -29,11 +25,12 @@ public class Auth {
 
     public Context context;
     public Activity activity;
-    private final String url ="https://api.ipc.am/rest/login";
     SweetAlertDialog pLoading;
 
     public  static final String TOKEN_PREFERENCE = "access_token";
     public  static final String TOKEN = "token";
+    public  static final String DATE = "date";
+    private long currentTime;
     public  SharedPreferences sharedpref;
 
     public Auth(Context context) {
@@ -41,69 +38,47 @@ public class Auth {
         activity = (Activity) context;
         initLoading();
         sharedpref = context.getSharedPreferences(TOKEN_PREFERENCE, context.MODE_PRIVATE);
+        currentTime = System.currentTimeMillis();
     }
+
 
     public void login(final String username, final String password){
         loading(true);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        loading(false);
-                        try {
-                            JSONObject data = new JSONObject(response);
+        IPC_Application.i().w().login(username, password).enqueue(new Callback<Responses<LoginContent>>() {
 
-                            if(data.getString("message").equals("Success")){
-
-                                JSONObject content = data.getJSONObject("content");
-                                String token = content.getString("token");
-
-                                SharedPreferences.Editor editor = sharedpref.edit();
-                                editor.putString(TOKEN, token);
-                                editor.commit();
-
-                                Intent show = new Intent(context, Dashboard.class);
-                                context.startActivity(show);
-                                activity.finish();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onResponse(Call<Responses<LoginContent>> call, retrofit2.Response<Responses<LoginContent>> response) {
                 loading(false);
-                if(error.networkResponse == null){
-                    showRrror("Where is your internet?");
+                if(response.code() == 200){
+                    Log.e("MY", "onResponse() returned: " + response.body().status);
+
+                    String token = response.body().content.token;
+                    setToken(token);
+
+                    Intent show = new Intent(context, Dashboard.class);
+                    context.startActivity(show);
+                    activity.finish();
+
+
+                }else{
+                    Log.e("MY", "onResponse() returned: " + response.code());
+                    showRrror("Something went wrong. "+response.code());
                 }
-                else if(error.networkResponse.statusCode == 401){
-                    showRrror("Wrong username and/or password.");
+
+            }
+
+            @Override
+            public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
+                loading(false);
+
+                if(t.getMessage().startsWith("Unable to resolve host")){
+                    showRrror("Where is your internet?");
                 }else{
                     showRrror("Something went wrong.");
                 }
-
+                Log.e("MY", "error: " + t.getMessage());
             }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("login", username);
-                params.put("password", password);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-
-
-        ApplicationController.getInstance().addToRequestQueue(stringRequest);
+        });
     }
 
     private void showRrror(String text) {
@@ -115,7 +90,7 @@ public class Auth {
 
     public boolean checkLoggedIn(){
         String token = sharedpref.getString(TOKEN, "");
-        Log.e("MYT", token+"");
+
         if(token.equals("")){
             return false;
         }
@@ -131,14 +106,73 @@ public class Auth {
         context.startActivity(show);
     }
 
+    private void setToken(String token){
+
+        SharedPreferences.Editor editor = sharedpref.edit();
+        editor.putString(TOKEN, token);
+        editor.putLong(DATE, currentTime);
+        editor.commit();
+    }
+
+    private void updateTokenDate(){
+
+        SharedPreferences.Editor editor = sharedpref.edit();
+        editor.putLong(DATE, currentTime);
+        editor.commit();
+
+    }
+
+    public void checkTokenDate(){
+        String token = sharedpref.getString(TOKEN, "");
+        long lastUse = sharedpref.getLong(DATE, 0L);
+
+        if(lastUse == 0L){
+            logout();
+        }
+        Date currentDate = new Date(currentTime);
+        Date lastUpdateDate = new Date(lastUse);
+
+        long difference = currentDate.getTime() - lastUpdateDate.getTime();
+        long differenceInMinutes = TimeUnit.MILLISECONDS.toMinutes(difference);
+
+        Log.e("MY", "DATE: "+differenceInMinutes);
+        if (differenceInMinutes > 1400){
+            Log.e("MY", "TOKEN EXPIRED");
+            refreshToken(token);
+        }
+    }
+
     @Nullable
     public String getToken(){
         String token = sharedpref.getString(TOKEN, "");
+
         if(token.equals("")){
             return null;
         }
-
+        updateTokenDate();
         return token;
+    }
+
+    private void refreshToken(String oldToken){
+        loading(true);
+        IPC_Application.i().w().refreshToken(oldToken).enqueue(new Callback<Responses<LoginContent>>() {
+            @Override
+            public void onResponse(Call<Responses<LoginContent>> call, Response<Responses<LoginContent>> response) {
+                loading(false);
+                if(response.code() == 200){
+                    if(response.body().status == 200){
+                        String token = response.body().content.token;
+                        Log.e("MY", "NEW TOKEN: "+token);
+                        setToken(token);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
+                loading(false);
+            }
+        });
     }
 
     private void initLoading(){

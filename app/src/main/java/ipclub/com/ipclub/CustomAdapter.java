@@ -1,6 +1,7 @@
 package ipclub.com.ipclub;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ipclub.com.ipclub.contents.VocabularyItem;
+
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
-    private ArrayList<JSONObject> dataSet;
+    private ArrayList<VocabularyItem> dataSet;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -27,7 +30,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         }
     }
 
-    public CustomAdapter(ArrayList<JSONObject> data) {
+    public CustomAdapter(ArrayList<VocabularyItem> data) {
         this.dataSet = data;
     }
 
@@ -49,13 +52,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView textViewName = holder.textViewName;
         TextView textViewTrans = holder.textViewTrans;
 
-        try {
-            textViewName.setText(dataSet.get(listPosition).getString("title"));
-            textViewTrans.setText(dataSet.get(listPosition).getString("translation"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        textViewName.setText(dataSet.get(listPosition).title);
+        textViewTrans.setText(dataSet.get(listPosition).translation);
     }
 
     @Override
