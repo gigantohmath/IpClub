@@ -8,10 +8,12 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import ipclub.com.ipclub.contents.EmptyContent;
 import ipclub.com.ipclub.contents.LoginContent;
 import ipclub.com.ipclub.responses.Responses;
 import retrofit2.Call;
@@ -41,6 +43,33 @@ public class Auth {
         currentTime = System.currentTimeMillis();
     }
 
+
+    public void changePassword(String password, String newPassword){
+
+        String token = getToken();
+        loading(true);
+        IPC_Application.i().w().changePassword(password, newPassword, token).enqueue(new Callback<Responses<ArrayList<EmptyContent>>>() {
+            @Override
+            public void onResponse(Call<Responses<ArrayList<EmptyContent>>> call, Response<Responses<ArrayList<EmptyContent>>> response) {
+                loading(false);
+                if(response.code() == 200){
+                    if(response.body().status == 200){
+                        if (response.body().message.startsWith("Password successfully")){
+
+                        }
+                        Log.e("MY", response.body().message);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Responses<ArrayList<EmptyContent>>> call, Throwable t) {
+                loading(false);
+                showRrror(t.getMessage()+"");
+                Log.e("MY", t.getMessage()+"");
+            }
+        });
+    }
 
     public void login(final String username, final String password){
         loading(true);

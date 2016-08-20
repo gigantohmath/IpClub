@@ -35,6 +35,7 @@ public class Dashboard extends AppCompatActivity {
                 Intent show = new Intent(this, Vocabulary.class);
                 startActivity(show);
                 break;
+
         }
     }
 

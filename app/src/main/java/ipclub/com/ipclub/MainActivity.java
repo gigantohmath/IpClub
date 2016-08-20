@@ -28,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(show);
             finish();
         }
+
     }
+
+
 
     public void loginSubmit(View v){
         hideKeyboard();

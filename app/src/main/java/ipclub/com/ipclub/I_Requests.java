@@ -2,6 +2,7 @@ package ipclub.com.ipclub;
 
 import java.util.ArrayList;
 
+import ipclub.com.ipclub.contents.EmptyContent;
 import ipclub.com.ipclub.contents.LoginContent;
 import ipclub.com.ipclub.contents.VocabularyItem;
 import ipclub.com.ipclub.responses.Responses;
@@ -35,6 +36,15 @@ public interface I_Requests {
             @Path("course") String course,
             @Path("start") int start,
             @Path("count") int count,
+            @Header("token") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("/rest/changePassword")
+    Call<Responses<ArrayList<EmptyContent>>> changePassword(
+            @Field("password") String password,
+            @Field("newpassword") String newPassword,
             @Header("token") String token
     );
 
