@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Dashboard" android:label="Dashboard"/>
-        <activity android:name=".Vocabulary" android:label="Vocabulary"></activity>
+
+        <activity android:name=".Vocabulary"
+            android:label="Vocabulary"
+            android:parentActivityName=".Dashboard"></activity>
     </application>
 
 </manifest>

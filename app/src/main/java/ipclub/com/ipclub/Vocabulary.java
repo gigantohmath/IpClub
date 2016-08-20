@@ -1,12 +1,17 @@
 package ipclub.com.ipclub;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -23,6 +28,7 @@ public class Vocabulary extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     CustomAdapter adapter;
+    AlertDialog customProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,8 @@ public class Vocabulary extends AppCompatActivity {
         adapter = new CustomAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
-        initLoading();
+        //initLoading();
+        initCustomLoading();
         getDataFromServer();
 
     }
@@ -84,11 +91,26 @@ public class Vocabulary extends AppCompatActivity {
         pLoading.setCancelable(false);
     }
 
+    private void initCustomLoading() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_progress, null);
+        dialogBuilder.setView(dialogView);
+
+        dialogBuilder.setCancelable(false);
+
+        customProgress = dialogBuilder.create();
+        customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+    }
+
     private void loading(boolean show){
         if (show){
-            pLoading.show();
+            //pLoading.show();
+            customProgress.show();
         }else {
-            pLoading.hide();
+            //pLoading.hide();
+            customProgress.hide();
         }
     }
 

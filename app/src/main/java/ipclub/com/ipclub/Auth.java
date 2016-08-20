@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +32,7 @@ public class Auth {
     public Context context;
     public Activity activity;
     SweetAlertDialog pLoading;
+    AlertDialog customProgress;
 
     public  static final String TOKEN_PREFERENCE = "access_token";
     public  static final String TOKEN = "token";
@@ -38,7 +43,8 @@ public class Auth {
     public Auth(Context context) {
         this.context = context;
         activity = (Activity) context;
-        initLoading();
+        //initLoading();
+        initCustomLoading();
         sharedpref = context.getSharedPreferences(TOKEN_PREFERENCE, context.MODE_PRIVATE);
         currentTime = System.currentTimeMillis();
     }
@@ -211,11 +217,26 @@ public class Auth {
         pLoading.setCancelable(false);
     }
 
+    private void initCustomLoading() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_progress, null);
+        dialogBuilder.setView(dialogView);
+
+        dialogBuilder.setCancelable(false);
+
+        customProgress = dialogBuilder.create();
+        customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+    }
+
     private void loading(boolean show){
         if (show){
-            pLoading.show();
+            //pLoading.show();
+            customProgress.show();
         }else {
-            pLoading.hide();
+            //pLoading.hide();
+            customProgress.hide();
         }
     }
 }
