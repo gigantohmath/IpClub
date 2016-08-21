@@ -1,7 +1,9 @@
 package ipclub.com.ipclub;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import ipclub.com.ipclub.contents.ClassRoomItem;
 import ipclub.com.ipclub.contents.EmptyContent;
 import ipclub.com.ipclub.contents.LoginContent;
 import ipclub.com.ipclub.contents.VocabularyItem;
@@ -47,6 +49,13 @@ public interface I_Requests {
             @Field("newpassword") String newPassword,
             @Header("token") String token
     );
+ //        /rest/TEST/classroom/list/START/COUNT
 
-
+    @GET("/rest/{course}/classroom/list/{start}/{count}")
+    Call<Responses<List<ClassRoomItem>>> classRoomItems(
+            @Path("course") String course,
+            @Path("start") int start,
+            @Path("count") int count,
+            @Header("token") String token
+    );
 }

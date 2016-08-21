@@ -84,9 +84,12 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
+            android:clickable="true"
+            android:onClick="goTo"
             android:background="@color/menuBg3"
             android:layout_gravity="center_vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/classRoom">
 
             <TextView
                 android:layout_width="match_parent"

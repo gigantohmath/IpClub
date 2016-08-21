@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import ipclub.com.ipclub.activities.ClassRoomActivity;
+
 public class Dashboard extends AppCompatActivity {
 
     private Auth auth;
@@ -29,13 +31,16 @@ public class Dashboard extends AppCompatActivity {
     }
 
     public void goTo(View v){
-
+        Intent show;
         switch (v.getId()){
             case R.id.vocabulary:
-                Intent show = new Intent(this, Vocabulary.class);
+                 show = new Intent(this, Vocabulary.class);
                 startActivity(show);
                 break;
-
+            case  R.id.classRoom:
+                show = new Intent(this, ClassRoomActivity.class);
+                startActivity(show);
+                break;
         }
     }
 
