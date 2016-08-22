@@ -1,5 +1,6 @@
 package ipclub.com.ipclub._6_classRoomSection;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
@@ -36,22 +37,34 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
     private AlertDialog customProgress;
     private PullToRefreshView mPullToRefreshView;
     private static int REFRESH_DELAY = 1500;
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_room);
         mRecyclerView = (RecyclerView) findViewById(R.id.classRoomRecyclerView);
         auth = new Auth(this);
-        classRoomItems = new ArrayList<ClassRoomItem>();
+        context = this;
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // test to show that custom classroom adapter is working , we have a problem with classroom uri
-        recCardTest();
-        mAdapter = new ClassRoomAdapter(classRoomItems);
-        mRecyclerView.setAdapter(mAdapter);
-        //make working commented methods when the problem with uri will be solved
-        //initCustomLoading();
-        //getDataFromServer();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.classRoomRecyclerView);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent i = new Intent(context,ClassRoomLessonActivity.class);
+                        int tempId = classRoomItems.get(position).id;
+                        i.putExtra("id",tempId);
+                        startActivity(i);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
+        initCustomLoading();
+        getDataFromServer();
         mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
         mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
@@ -59,6 +72,7 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
                 mPullToRefreshView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getDataFromServer();
                         mPullToRefreshView.setRefreshing(false);
                     }
                 }, REFRESH_DELAY);
@@ -67,15 +81,7 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
 
     }
 
-    public void recCardTest(){
 
-        classRoomItems.add(new ClassRoomItem(1,"Notification",1,"Custom Notification"));
-        classRoomItems.add(new ClassRoomItem(2,"Threads",1,"Handlers"));
-        classRoomItems.add(new ClassRoomItem(3,"Threads",1,"AsyncTask"));
-        classRoomItems.add(new ClassRoomItem(4,"View",1,"Buttons"));
-        classRoomItems.add(new ClassRoomItem(5,"View",2,"Layouts"));
-        classRoomItems.add(new ClassRoomItem(6,"Activity",1,"Fragments"));
-    }
     @Override
     public void getDataFromServer(){
         loading(true);
@@ -88,8 +94,10 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
                 loading(false);
                 if(response.code() == 200){
                     if(response.body().status == 200){
+                        classRoomItems = new ArrayList<ClassRoomItem>();
                         classRoomItems.addAll(response.body().content);
-                        mAdapter.notifyDataSetChanged();
+                        mAdapter = new ClassRoomAdapter(classRoomItems);
+                        mRecyclerView.setAdapter(mAdapter);
                     }else{
                         showError("Error: "+response.body().message);
                     }
@@ -143,8 +151,9 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
     }
 
     public void fromClassRoomGoToClassRoomItem(View view){
-
-        Toast.makeText(ClassRoomActivity.this, "ClassRoom Item", Toast.LENGTH_SHORT).show();
+        Intent i  = new Intent(this,ClassRoomLessonActivity.class);
+        startActivity(i);
+        //Toast.makeText(ClassRoomActivity.this, "ClassRoom Item", Toast.LENGTH_SHORT).show();
 
     }
 }

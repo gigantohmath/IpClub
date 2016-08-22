@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomItem;
+import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLesson;
 import ipclub.com.ipclub.common.EmptyContent;
 import ipclub.com.ipclub._1_loginSection.LoginContent;
 import ipclub.com.ipclub._4_vocabularySection.VocabularyItem;
@@ -51,11 +52,18 @@ public interface I_Requests {
     );
  //        /rest/TEST/classroom/list/START/COUNT
 
-    @GET("/rest/{course}/classroom/list/{start}/{count}")
+    @GET("/rest/{course}/classrooms/list/{start}/{count}")
     Call<Responses<List<ClassRoomItem>>> classRoomItems(
             @Path("course") String course,
             @Path("start") int start,
             @Path("count") int count,
+            @Header("token") String token
+    );
+    ///rest/Android_2016_1/classrooms/get/32
+    @GET("/rest/{course}/classrooms/get/{id}")
+    Call<Responses<ClassRoomLesson>> classRoomLessons(
+            @Path("course") String course,
+            @Path("id") Integer id,
             @Header("token") String token
     );
 }

@@ -1,5 +1,7 @@
 package ipclub.com.ipclub._6_classRoomSection;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +11,23 @@ import android.widget.TextView;
 import java.util.List;
 
 import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity;
 
 /**
  * Created by sench on 8/22/2016.
  */
-public class ClassRoomAdapter extends RecyclerView.Adapter<ClassRoomAdapter.ViewHolder> {
-    private List<ClassRoomItem> classRoomItems;
+public class ClassRoomAdapter extends RecyclerView.Adapter<ClassRoomAdapter.ClassRoomViewHolder> {
+    private static List<ClassRoomItem> classRoomItems;
+    private static Context context;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ClassRoomViewHolder extends RecyclerView.ViewHolder {
         TextView classRoomTitle,lessonTitle;
 
-        public  ViewHolder(View view) {
+        public ClassRoomViewHolder(View view) {
             super(view);
-            classRoomTitle = (TextView) view.findViewById(R.id.classRoomTitle);
-            lessonTitle = (TextView) view.findViewById(R.id.lessonTitle);
+
+            this.classRoomTitle = (TextView) view.findViewById(R.id.classRoomTitle);
+            this.lessonTitle = (TextView) view.findViewById(R.id.lessonTitle);
         }
 
 
@@ -33,17 +38,18 @@ public class ClassRoomAdapter extends RecyclerView.Adapter<ClassRoomAdapter.View
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClassRoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.classroom_single_row, parent, false);
 
-        ViewHolder vh = new ViewHolder(v);
+        ClassRoomViewHolder vh = new ClassRoomViewHolder(v);
+        context = parent.getContext();
         return vh;
     }
 
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ClassRoomViewHolder holder, int position) {
         holder.classRoomTitle.setText(classRoomItems.get(position).title);
         holder.lessonTitle.setText(classRoomItems.get(position).lessonTitle);
     }
