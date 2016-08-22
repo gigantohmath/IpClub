@@ -1,5 +1,6 @@
-package ipclub.com.ipclub.activities;
+package ipclub.com.ipclub._6_classRoomSection;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,15 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import ipclub.com.ipclub.Auth;
-import ipclub.com.ipclub.IPC_Application;
+import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity;
+import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.R;
-import ipclub.com.ipclub.contents.ClassRoomItem;
-import ipclub.com.ipclub.responses.Responses;
+import ipclub.com.ipclub.common.I_CommonMethodsForWorkingWithServer;
+import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ClassRoomActivity extends AppCompatActivity {
+public class ClassRoomActivity extends AppCompatActivity implements I_CommonMethodsForWorkingWithServer {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -45,11 +47,11 @@ public class ClassRoomActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         // test to show that custom classroom adapter is working , we have a problem with classroom uri
         recCardTest();
-        mAdapter = new classRoomAdapter(classRoomItems);
+        mAdapter = new ClassRoomAdapter(classRoomItems);
         mRecyclerView.setAdapter(mAdapter);
         //make working commented methods when the problem with uri will be solved
         //initCustomLoading();
-        //getClassRoomDataFromServer();
+        //getDataFromServer();
         mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
         mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
@@ -74,7 +76,8 @@ public class ClassRoomActivity extends AppCompatActivity {
         classRoomItems.add(new ClassRoomItem(5,"View",2,"Layouts"));
         classRoomItems.add(new ClassRoomItem(6,"Activity",1,"Fragments"));
     }
-    private void getClassRoomDataFromServer(){
+    @Override
+    public void getDataFromServer(){
         loading(true);
         final String token = auth.getToken();
         Log.e("MYTOKEN",token);
@@ -88,11 +91,11 @@ public class ClassRoomActivity extends AppCompatActivity {
                         classRoomItems.addAll(response.body().content);
                         mAdapter.notifyDataSetChanged();
                     }else{
-                        showRrror("Error: "+response.body().message);
+                        showError("Error: "+response.body().message);
                     }
 
                 }else{
-                    showRrror("Something went wrong. "+response.code());
+                    showError("Something went wrong. "+response.code());
                 }
 
             }
@@ -104,7 +107,13 @@ public class ClassRoomActivity extends AppCompatActivity {
             }
         });
     }
-    private void initCustomLoading() {
+
+    @Override
+    public void sendDataToServer(String... strings) {
+
+    }
+
+    public void initCustomLoading() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -117,13 +126,15 @@ public class ClassRoomActivity extends AppCompatActivity {
         customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
 
-    private void showRrror(String text) {
+    @Override
+    public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Oops...")
                 .setContentText(text)
                 .show();
     }
-    private void loading(boolean show){
+    @Override
+    public void loading(boolean show){
         if (show){
             customProgress.show();
         }else {

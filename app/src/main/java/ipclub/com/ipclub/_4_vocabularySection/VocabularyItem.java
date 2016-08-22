@@ -1,4 +1,4 @@
-package ipclub.com.ipclub.contents;
+package ipclub.com.ipclub._4_vocabularySection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

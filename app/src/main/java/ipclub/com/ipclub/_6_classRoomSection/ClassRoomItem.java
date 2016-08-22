@@ -1,4 +1,4 @@
-package ipclub.com.ipclub.contents;
+package ipclub.com.ipclub._6_classRoomSection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,20 +1,16 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub._4_vocabularySection;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import ipclub.com.ipclub.contents.VocabularyItem;
+import ipclub.com.ipclub.R;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.MyViewHolder> {
 
     private ArrayList<VocabularyItem> dataSet;
 
@@ -30,7 +26,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         }
     }
 
-    public CustomAdapter(ArrayList<VocabularyItem> data) {
+    public VocabularyAdapter(ArrayList<VocabularyItem> data) {
         this.dataSet = data;
     }
 
@@ -40,7 +36,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cards_layout, parent, false);
 
-        //view.setOnClickListener(MainActivity.myOnClickListener);
+        //view.setOnClickListener(LoginActivity.myOnClickListener);
 
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;

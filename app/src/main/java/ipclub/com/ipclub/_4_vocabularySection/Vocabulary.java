@@ -1,4 +1,4 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub._4_vocabularySection;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,8 +15,10 @@ import android.view.View;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import ipclub.com.ipclub.contents.VocabularyItem;
-import ipclub.com.ipclub.responses.Responses;
+import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub.common.IPC_Application;
+import ipclub.com.ipclub.R;
+import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -27,7 +29,7 @@ public class Vocabulary extends AppCompatActivity {
     ArrayList<VocabularyItem> dataSet;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    CustomAdapter adapter;
+    VocabularyAdapter adapter;
     AlertDialog customProgress;
 
     @Override
@@ -45,7 +47,7 @@ public class Vocabulary extends AppCompatActivity {
 
         dataSet = new ArrayList<VocabularyItem>();
 
-        adapter = new CustomAdapter(dataSet);
+        adapter = new VocabularyAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
         //initLoading();

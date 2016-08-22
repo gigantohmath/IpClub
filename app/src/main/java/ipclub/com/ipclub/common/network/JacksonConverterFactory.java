@@ -1,4 +1,4 @@
-package ipclub.com.ipclub.network;
+package ipclub.com.ipclub.common.network;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

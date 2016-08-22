@@ -1,4 +1,4 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub.common;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,14 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import ipclub.com.ipclub.contents.EmptyContent;
-import ipclub.com.ipclub.contents.LoginContent;
-import ipclub.com.ipclub.responses.Responses;
+import ipclub.com.ipclub._3_dashBoardSection.Dashboard;
+import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._1_loginSection.LoginContent;
+import ipclub.com.ipclub._1_loginSection.LoginActivity;
+import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,32 +51,7 @@ public class Auth {
     }
 
 
-    public void changePassword(String password, String newPassword){
 
-        String token = getToken();
-        loading(true);
-        IPC_Application.i().w().changePassword(password, newPassword, token).enqueue(new Callback<Responses<ArrayList<EmptyContent>>>() {
-            @Override
-            public void onResponse(Call<Responses<ArrayList<EmptyContent>>> call, Response<Responses<ArrayList<EmptyContent>>> response) {
-                loading(false);
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        if (response.body().message.startsWith("Password successfully")){
-
-                        }
-                        Log.e("MY", response.body().message);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Responses<ArrayList<EmptyContent>>> call, Throwable t) {
-                loading(false);
-                showRrror(t.getMessage()+"");
-                Log.e("MY", t.getMessage()+"");
-            }
-        });
-    }
 
     public void login(final String username, final String password){
         loading(true);
@@ -137,7 +113,7 @@ public class Auth {
         editor.clear();
         editor.commit();
 
-        Intent show = new Intent(context, MainActivity.class);
+        Intent show = new Intent(context, LoginActivity.class);
         context.startActivity(show);
     }
 

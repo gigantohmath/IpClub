@@ -1,4 +1,4 @@
-package ipclub.com.ipclub.responses;
+package ipclub.com.ipclub.common.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

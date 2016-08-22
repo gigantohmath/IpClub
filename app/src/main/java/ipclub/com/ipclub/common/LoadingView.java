@@ -1,4 +1,4 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub.common;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import ipclub.com.ipclub.R;
 
 
 public class LoadingView extends View {

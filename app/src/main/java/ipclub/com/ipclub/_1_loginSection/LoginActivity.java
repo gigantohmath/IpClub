@@ -1,4 +1,4 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub._1_loginSection;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub._3_dashBoardSection.Dashboard;
+import ipclub.com.ipclub.R;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;

@@ -1,11 +1,14 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub._3_dashBoardSection;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import ipclub.com.ipclub.activities.ClassRoomActivity;
+import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._6_classRoomSection.ClassRoomActivity;
+import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub._4_vocabularySection.Vocabulary;
 
 public class Dashboard extends AppCompatActivity {
 

@@ -1,13 +1,13 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub.common.requests;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ipclub.com.ipclub.contents.ClassRoomItem;
-import ipclub.com.ipclub.contents.EmptyContent;
-import ipclub.com.ipclub.contents.LoginContent;
-import ipclub.com.ipclub.contents.VocabularyItem;
-import ipclub.com.ipclub.responses.Responses;
+import ipclub.com.ipclub._6_classRoomSection.ClassRoomItem;
+import ipclub.com.ipclub.common.EmptyContent;
+import ipclub.com.ipclub._1_loginSection.LoginContent;
+import ipclub.com.ipclub._4_vocabularySection.VocabularyItem;
+import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

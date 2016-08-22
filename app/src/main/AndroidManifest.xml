@@ -6,14 +6,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".IPC_Application"
+        android:name=".common.IPC_Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".MainActivity">
+        <activity android:name="._1_loginSection.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,13 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Dashboard"
+            android:name="._3_dashBoardSection.Dashboard"
             android:label="Dashboard" />
         <activity
-            android:name=".Vocabulary"
+            android:name="._4_vocabularySection.Vocabulary"
             android:label="Vocabulary"
-            android:parentActivityName=".Dashboard" />
-        <activity android:name=".activities.ClassRoomActivity"></activity>
+            android:parentActivityName="._3_dashBoardSection.Dashboard" />
+        <activity android:name="._6_classRoomSection.ClassRoomActivity" />
+        <activity android:name="._2_changePasswordSection.ChangePasswordActivity" />
+        <activity android:name="._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity"></activity>
     </application>
 
 </manifest>

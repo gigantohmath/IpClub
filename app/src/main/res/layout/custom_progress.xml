@@ -5,7 +5,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <ipclub.com.ipclub.LoadingView
+    <ipclub.com.ipclub.common.LoadingView
         android:layout_width="match_parent"
         android:layout_height="150dp" />
 </LinearLayout>

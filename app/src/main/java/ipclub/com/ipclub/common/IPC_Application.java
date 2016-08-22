@@ -1,10 +1,11 @@
-package ipclub.com.ipclub;
+package ipclub.com.ipclub.common;
 
 import android.app.Application;
 
 import java.util.concurrent.TimeUnit;
 
-import ipclub.com.ipclub.network.JacksonConverterFactory;
+import ipclub.com.ipclub.common.requests.I_Requests;
+import ipclub.com.ipclub.common.network.JacksonConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
