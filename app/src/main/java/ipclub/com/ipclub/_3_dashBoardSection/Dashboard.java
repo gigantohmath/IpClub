@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._5_docsSection.DocsActivity;
+import ipclub.com.ipclub._5_docsSection.DocsContent;
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomActivity;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub._4_vocabularySection.Vocabulary;
@@ -42,6 +44,10 @@ public class Dashboard extends AppCompatActivity {
                 break;
             case  R.id.classRoom:
                 show = new Intent(this, ClassRoomActivity.class);
+                startActivity(show);
+                break;
+            case  R.id.docs:
+                show = new Intent(this, DocsActivity.class);
                 startActivity(show);
                 break;
         }

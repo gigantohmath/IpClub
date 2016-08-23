@@ -34,8 +34,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-
     public void loginSubmit(View v){
         hideKeyboard();
         String user = username.getText().toString();

@@ -59,6 +59,9 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
+            android:clickable="true"
+            android:onClick="goTo"
+            android:id="@+id/docs"
             android:background="@color/menuBg2"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">

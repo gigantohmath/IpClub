@@ -3,6 +3,7 @@ package ipclub.com.ipclub.common.requests;
 import java.util.ArrayList;
 import java.util.List;
 
+import ipclub.com.ipclub._5_docsSection.DocsContent;
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomItem;
 import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonContent;
 import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.EditLessonContent;
@@ -85,6 +86,12 @@ public interface I_Requests {
             @Field("title") String title,
             @Field("content") String content,
             @Field("lesson") Integer lesson,
+            @Header("token") String token
+    );
+
+    @GET("/rest/{course}/docs")
+    Call<Responses<DocsContent>> getDocList(
+            @Path("course") String course,
             @Header("token") String token
     );
 }
