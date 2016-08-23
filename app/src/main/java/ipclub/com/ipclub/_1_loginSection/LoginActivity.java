@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_layout);
         initView();
 
         auth = new Auth(this);
@@ -34,7 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void loginSubmit(View v){
+
+    public void onLoginButtonClick(View v){
+
         hideKeyboard();
         String user = username.getText().toString();
         String pass = password.getText().toString();
@@ -47,9 +49,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void clickOnForgotPasswordText(View v){
+
+    }
+
     private void initView(){
-        username = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
+        username = (EditText) findViewById(R.id.username_et);
+        password = (EditText) findViewById(R.id.password_et);
     }
 
     private void showRrror(String text) {

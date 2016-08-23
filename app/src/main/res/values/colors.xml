@@ -15,5 +15,6 @@
     <color name="menuBg5">#7d8e96</color>
     <color name="menuBg6">#9fadb4</color>
     <color name="menuBg7">#6d7e86</color>
-    <color name="black">#000</color>
+    <color name="black">#262626</color>
+
 </resources>
