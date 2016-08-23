@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         card_view:cardCornerRadius="8dp"
-        android:clickable="true"
-        android:onClick="fromClassRoomGoToClassRoomItem">
+        android:clickable="true">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

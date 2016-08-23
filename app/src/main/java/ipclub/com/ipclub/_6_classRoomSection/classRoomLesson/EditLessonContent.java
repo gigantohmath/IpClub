@@ -3,9 +3,9 @@ package ipclub.com.ipclub._6_classRoomSection.classRoomLesson;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by sench on 8/22/2016.
+ * Created by sench on 8/23/2016.
  */
-public class ClassRoomLesson {
+public class EditLessonContent {
 
     @JsonProperty("id")
     public int id;
@@ -21,5 +21,4 @@ public class ClassRoomLesson {
 
     @JsonProperty("lessonTitle")
     public String lessonTitle;
-
 }

@@ -9,7 +9,12 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
@@ -20,22 +25,32 @@ import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ClassRoomLessonActivity extends AppCompatActivity implements I_CommonMethodsForWorkingWithServer{
+public class EditClassRoomLessonActivity extends AppCompatActivity implements I_CommonMethodsForWorkingWithServer {
     private AlertDialog customProgress;
     private Auth auth;
-    private TextView content,lessonTitle,title;
+    private EditText content,title;
+    private TextView lessonTitle;
+    private Button accept;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_room_lesson);
-        content = (TextView)findViewById(R.id.classRoomItemBody);
+        setContentView(R.layout.activity_edit_class_room_item);
+        content = (EditText)findViewById(R.id.classRoomItemEditableBody);
         lessonTitle = (TextView)findViewById(R.id.lessonTitle);
-        title = (TextView)findViewById(R.id.title);
+        title = (EditText) findViewById(R.id.editableTitle);
+        accept = (Button) findViewById(R.id.acceptBut);
         auth = new Auth(this);
         Intent mIntent = getIntent();
-        int intValue = mIntent.getIntExtra("id",0);
+        final int intValue = mIntent.getIntExtra("id",0);
         initCustomLoading();
         getDataFromServerX(intValue);
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editClassRoomItem(intValue);
+            }
+        });
+
     }
     public void getDataFromServerX(int a){
         loading(true);
@@ -49,7 +64,17 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
                 if(response.code() == 200){
                     if(response.body().status == 200){
                         PrettifyHighlighter highlighter = new PrettifyHighlighter();
-                        String highlighted = highlighter.highlight("java", response.body().content.content);
+                        String highlighted ="";
+                        if(response.body().content.content == (null) || response.body().content.content.equals("")){
+
+                             highlighted = highlighter.highlight("java", "Content is null");
+                        }
+
+                        else{
+
+                             highlighted = highlighter.highlight("java", response.body().content.content);
+                        }
+
                         content.setText(Html.fromHtml(highlighted));
                         lessonTitle.setText(response.body().content.lessonTitle);
                         title.setText(response.body().content.title);
@@ -65,6 +90,40 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
 
             @Override
             public void onFailure(Call<Responses<ClassRoomLessonContent>> call, Throwable t) {
+                loading(false);
+                Log.e("MY", "error: " + t.getMessage());
+            }
+        });
+
+
+    }
+
+    public void editClassRoomItem(int a){
+        loading(true);
+        final String token = auth.getToken();
+        IPC_Application.i().w().editLessons("Android_2016_1", a, title.getText().toString(),"This is Edited Body from our app.",null,token).enqueue(new Callback<Responses<ArrayList<EditLessonContent>>>() {
+            @Override
+            public void onResponse(Call<Responses<ArrayList<EditLessonContent>>> call, retrofit2.Response<Responses<ArrayList<EditLessonContent>>> response) {
+
+                loading(false);
+                if(response.code() == 200){
+                    if(response.body().status == 200){
+                        Intent tempIntent = new Intent(EditClassRoomLessonActivity.this,ClassRoomLessonActivity.class);
+                        startActivity(tempIntent);
+                        Toast.makeText(EditClassRoomLessonActivity.this, "Edited . . . ", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        showError("Error: "+response.body().message);
+                    }
+
+                }else{
+                    showError("Something went wrong. "+response.code());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Responses<ArrayList<EditLessonContent>>> call, Throwable t) {
                 loading(false);
                 Log.e("MY", "error: " + t.getMessage());
             }

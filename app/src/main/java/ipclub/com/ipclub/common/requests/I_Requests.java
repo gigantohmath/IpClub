@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomItem;
-import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLesson;
+import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonContent;
+import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.EditLessonContent;
 import ipclub.com.ipclub.common.EmptyContent;
 import ipclub.com.ipclub._1_loginSection.LoginContent;
 import ipclub.com.ipclub._4_vocabularySection.VocabularyItem;
@@ -61,9 +62,29 @@ public interface I_Requests {
     );
     ///rest/Android_2016_1/classrooms/get/32
     @GET("/rest/{course}/classrooms/get/{id}")
-    Call<Responses<ClassRoomLesson>> classRoomLessons(
+    Call<Responses<ClassRoomLessonContent>> classRoomLessons(
             @Path("course") String course,
-            @Path("id") Integer id,
+            @Path("id") int id,
+            @Header("token") String token
+    );
+
+    @GET("/rest/{course}/classrooms/delete/{id}")
+    Call<Responses<ArrayList<EmptyContent>>> deleteClassRoomLessons(
+            @Path("course") String course,
+            @Path("id") int id,
+            @Header("token") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("/rest/{course}/classrooms/edit/{id}")
+    Call<Responses<ArrayList<EditLessonContent>>> editLessons(
+
+            @Path("course") String course,
+            @Path("id") int id,
+            @Field("title") String title,
+            @Field("content") String content,
+            @Field("lesson") Integer lesson,
             @Header("token") String token
     );
 }
