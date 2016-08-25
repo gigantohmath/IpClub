@@ -1,16 +1,20 @@
 package ipclub.com.ipclub._2_changePasswordSection;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import ipclub.com.ipclub._3_dashBoardSection.Dashboard;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.R;
@@ -22,6 +26,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity implements I_CommonMethodsForWorkingWithServer {
+    private EditText password_et;
+    private EditText newPssword_et;
+    private EditText repeatPassword_et;
+    private String password;
+    private String newPassword;
+    private String repeatPassword;
     private Auth auth;
     private  AlertDialog customProgress;
     @Override
@@ -29,9 +39,33 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         auth = new Auth(this);
+        initCustomLoading();
+        initView();
     }
 
- @Override
+    private void initView() {
+        password_et=(EditText)findViewById(R.id.password_change_password);
+        newPssword_et=(EditText)findViewById(R.id.new_password_change_password);
+        repeatPassword_et=(EditText)findViewById(R.id.repeat_password_change_password);
+    }
+
+    public void onSaveChangesButtonClick(View v){
+        password=password_et.getText().toString();
+        newPassword=newPssword_et.getText().toString();
+        repeatPassword=repeatPassword_et.getText().toString();
+        if(password.equals("") || newPassword.equals("") || repeatPassword.equals("")){
+            showError("Please, fill all fields!");
+        }
+        else if(!newPassword.equals(repeatPassword)){
+            showError("new passwords don't match");
+        }
+        else{
+            sendDataToServer(new String[]{password,newPassword});
+        }
+
+    }
+
+    @Override
     public void sendDataToServer(String[] reqParams){
         String token = auth.getToken();
         loading(true);
@@ -42,9 +76,12 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
                 if(response.code() == 200){
                     if(response.body().status == 200){
                         if (response.body().message.startsWith("Password successfully")){
-
+                            showSuccess();
                         }
                         Log.e("MY", response.body().message);
+                    }
+                    else if(response.body().status == 401){
+                        showError("Wrong password");
                     }
                 }
             }
@@ -79,6 +116,19 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Oops...")
                 .setContentText(text)
+                .show();
+    }
+
+    public void showSuccess(){
+        new SweetAlertDialog(this,SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Success!")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Intent goToDashboard=new Intent(ChangePasswordActivity.this, Dashboard.class);
+                        startActivity(goToDashboard);
+                    }
+                })
                 .show();
     }
 

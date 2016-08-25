@@ -146,11 +146,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/settings"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:background="@color/menuBg6"
             android:gravity="center"
+            android:onClick="goTo"
+            android:clickable="true"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">
 
