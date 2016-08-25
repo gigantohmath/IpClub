@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         String pass = password.getText().toString();
 
         if(user.equals("") || pass.equals("")){
-            showRrror("Please, fill all fields.");
+            showError("Please, fill all fields.");
         }else{
             auth.login(user, pass);
         }
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password_et);
     }
 
-    private void showRrror(String text) {
+    private void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Oops...")
                 .setContentText(text)

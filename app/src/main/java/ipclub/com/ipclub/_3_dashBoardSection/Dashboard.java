@@ -21,19 +21,22 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        initView();
 
         auth = new Auth(this);
         auth.checkTokenDate();
+
+        initView();
+
     }
 
     private void initView(){
 
     }
 
-    public void logout(View v){
-        auth.logout();
+    public void logout(){
         finish();
+        auth.logout();
+
     }
 
     public void goTo(View v){
@@ -42,10 +45,12 @@ public class Dashboard extends AppCompatActivity {
             case R.id.vocabulary:
                  show = new Intent(this, Vocabulary.class);
                 startActivity(show);
+
                 break;
             case  R.id.classRoom:
                 show = new Intent(this, ClassRoomActivity.class);
                 startActivity(show);
+
                 break;
             case  R.id.docs:
                 show = new Intent(this, DocsActivity.class);
@@ -54,6 +59,7 @@ public class Dashboard extends AppCompatActivity {
             case R.id.settings:
                 show=new Intent(this, ChangePasswordActivity.class);
                 startActivity(show);
+                finish();
                 break;
         }
     }

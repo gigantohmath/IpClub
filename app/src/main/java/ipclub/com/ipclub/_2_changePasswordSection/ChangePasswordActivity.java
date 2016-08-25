@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -34,6 +35,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
     private String repeatPassword;
     private Auth auth;
     private  AlertDialog customProgress;
+    private SweetAlertDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,18 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
         });
     }
 
+    public void onLogoutImageClick(View v){
+        showLogoutDialog();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(this,Dashboard.class);
+        finish();
+        startActivity(intent);
+    }
 
     @Override
     public void initCustomLoading() {
@@ -111,7 +125,32 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
         customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
 
-    @Override
+    public void showLogoutDialog(){
+        dialog= new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText("Logging out?");
+        dialog.setContentText("Are you sure you want to logout ?");
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                Auth.IS_LOGGED=false;
+                auth.logout();
+                finish();
+
+
+            }
+        });
+        dialog.showCancelButton(true);
+        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                dialog.cancel();
+            }
+        });
+        dialog.setCancelText("cancel");
+        dialog.show();
+    }
+
+
     public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Oops...")

@@ -34,7 +34,7 @@ public class Auth {
     public Activity activity;
     SweetAlertDialog pLoading;
     AlertDialog customProgress;
-
+    public static boolean IS_LOGGED=false;
     public  static final String TOKEN_PREFERENCE = "access_token";
     public  static final String TOKEN = "token";
     public  static final String DATE = "date";
@@ -65,7 +65,7 @@ public class Auth {
 
                     String token = response.body().content.token;
                     setToken(token);
-
+                    IS_LOGGED=true;
                     Intent show = new Intent(context, Dashboard.class);
                     context.startActivity(show);
                     activity.finish();
@@ -84,7 +84,11 @@ public class Auth {
 
                 if(t.getMessage().startsWith("Unable to resolve host")){
                     showRrror("Where is your internet?");
-                }else{
+                }
+                else if(t.getMessage().startsWith("Can not deserialize")){
+                    showRrror("Wrong username and password combination");
+                }
+                else{
                     showRrror("Something went wrong.");
                 }
                 Log.e("MY", "error: " + t.getMessage());
@@ -112,7 +116,6 @@ public class Auth {
         SharedPreferences.Editor editor = sharedpref.edit();
         editor.clear();
         editor.commit();
-
         Intent show = new Intent(context, LoginActivity.class);
         context.startActivity(show);
     }

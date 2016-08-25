@@ -31,7 +31,8 @@
             android:parentActivityName="._3_dashBoardSection.Dashboard" />
         <activity android:name="._6_classRoomSection.ClassRoomActivity" />
         <activity android:name="._2_changePasswordSection.ChangePasswordActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"></activity>
         <activity android:name="._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity" />
         <activity android:name="._6_classRoomSection.classRoomLesson.EditClassRoomLessonActivity" />
         <activity android:name="._5_docsSection.DocsActivity"></activity>
