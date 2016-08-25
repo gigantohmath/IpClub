@@ -94,4 +94,13 @@ public interface I_Requests {
             @Path("course") String course,
             @Header("token") String token
     );
+
+    @FormUrlEncoded
+    @POST("/rest/{course}/vocabulary/new")
+    Call<Responses<VocabularyItem>> addVocItem(
+            @Field("title") String title,
+            @Field("translation") String translation,
+            @Path("course") String course,
+            @Header("token") String token
+    );
 }

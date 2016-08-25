@@ -1,7 +1,10 @@
 package ipclub.com.ipclub._4_vocabularySection;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,11 +34,15 @@ public class Vocabulary extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     VocabularyAdapter adapter;
     AlertDialog customProgress;
+    private FloatingActionButton fab;
+
+    public static int REQUEST_CODE = 1;
+    public static int RESULT_REFRESH = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vocabulary);
+        setContentView(R.layout.vocabulary_float_layout);
         auth = new Auth(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -50,9 +57,30 @@ public class Vocabulary extends AppCompatActivity {
         adapter = new VocabularyAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
-        //initLoading();
         initCustomLoading();
         getDataFromServer();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Vocabulary.this, AddEditVocabulary.class);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+
+            if (resultCode == RESULT_REFRESH) {
+                dataSet.removeAll(dataSet);
+                getDataFromServer();
+            }
+        }
 
     }
 
