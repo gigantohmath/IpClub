@@ -73,7 +73,7 @@ public class Auth {
 
                 }else{
                     Log.e("MY", "onResponse() returned: " + response.code());
-                    showRrror("Something went wrong. "+response.code());
+                    showRrror(context.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -83,13 +83,13 @@ public class Auth {
                 loading(false);
 
                 if(t.getMessage().startsWith("Unable to resolve host")){
-                    showRrror("Where is your internet?");
+                    showRrror(context.getString(R.string.no_internet_text));
                 }
                 else if(t.getMessage().startsWith("Can not deserialize")){
-                    showRrror("Wrong username and password combination");
+                    showRrror(context.getString(R.string.wrong_username_password));
                 }
                 else{
-                    showRrror("Something went wrong.");
+                    showRrror(context.getString(R.string.something_went_wrong));
                 }
                 Log.e("MY", "error: " + t.getMessage());
             }
@@ -98,7 +98,7 @@ public class Auth {
 
     private void showRrror(String text) {
         new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(context.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }

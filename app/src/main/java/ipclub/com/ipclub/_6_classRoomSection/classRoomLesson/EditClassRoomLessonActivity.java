@@ -79,11 +79,11 @@ public class EditClassRoomLessonActivity extends AppCompatActivity implements I_
                         lessonTitle.setText(response.body().content.lessonTitle);
                         title.setText(response.body().content.title);
                     }else{
-                        showError("Error: "+response.body().message);
+                        showError(EditClassRoomLessonActivity.this.getString(R.string.error)+":"+response.body().message);
                     }
 
                 }else{
-                    showError("Something went wrong. "+response.code());
+                    showError(EditClassRoomLessonActivity.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -110,14 +110,14 @@ public class EditClassRoomLessonActivity extends AppCompatActivity implements I_
                     if(response.body().status == 200){
                         Intent tempIntent = new Intent(EditClassRoomLessonActivity.this,ClassRoomLessonActivity.class);
                         startActivity(tempIntent);
-                        Toast.makeText(EditClassRoomLessonActivity.this, "Edited . . . ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditClassRoomLessonActivity.this, EditClassRoomLessonActivity.this.getString(R.string.edit_success), Toast.LENGTH_SHORT).show();
 
                     }else{
-                        showError("Error: "+response.body().message);
+                        showError(EditClassRoomLessonActivity.this.getString(R.string.error) + ":"+response.body().message);
                     }
 
                 }else{
-                    showError("Something went wrong. "+response.code());
+                    showError(EditClassRoomLessonActivity.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -158,7 +158,7 @@ public class EditClassRoomLessonActivity extends AppCompatActivity implements I_
     @Override
     public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(EditClassRoomLessonActivity.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }

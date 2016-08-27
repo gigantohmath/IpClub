@@ -97,11 +97,11 @@ public class Vocabulary extends AppCompatActivity {
                         dataSet.addAll(response.body().content);
                         adapter.notifyDataSetChanged();
                     }else{
-                        showRrror("Error: "+response.body().message);
+                        showRrror(Vocabulary.this.getString(R.string.error)+":"+response.body().message);
                     }
 
                 }else{
-                    showRrror("Something went wrong. "+response.code());
+                    showRrror(Vocabulary.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -146,7 +146,7 @@ public class Vocabulary extends AppCompatActivity {
 
     private void showRrror(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(Vocabulary.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }

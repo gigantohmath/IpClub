@@ -56,10 +56,10 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
         newPassword=newPssword_et.getText().toString();
         repeatPassword=repeatPassword_et.getText().toString();
         if(password.equals("") || newPassword.equals("") || repeatPassword.equals("")){
-            showError("Please, fill all fields!");
+            showError(this.getString(R.string.fill_all_fields));
         }
         else if(!newPassword.equals(repeatPassword)){
-            showError("new passwords don't match");
+            showError(this.getString(R.string.new_passwords_dont_match));
         }
         else{
             sendDataToServer(new String[]{password,newPassword});
@@ -83,7 +83,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
                         Log.e("MY", response.body().message);
                     }
                     else if(response.body().status == 401){
-                        showError("Wrong password");
+                        showError(ChangePasswordActivity.this.getString(R.string.wrong_old_password));
                     }
                 }
             }
@@ -127,8 +127,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
 
     public void showLogoutDialog(){
         dialog= new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE);
-        dialog.setTitleText("Logging out?");
-        dialog.setContentText("Are you sure you want to logout ?");
+        dialog.setTitleText(ChangePasswordActivity.this.getString(R.string.log_out_dialog_title));
+        dialog.setContentText(ChangePasswordActivity.this.getString(R.string.log_out_dialog_text));
         dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -144,21 +144,21 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
                 dialog.dismiss();
             }
         });
-        dialog.setCancelText("cancel");
+        dialog.setCancelText(ChangePasswordActivity.this.getString(R.string.dialog_cancel));
         dialog.show();
     }
 
 
     public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(ChangePasswordActivity.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }
 
     public void showSuccess(){
         new SweetAlertDialog(this,SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Success!")
+                .setTitleText(ChangePasswordActivity.this.getString(R.string.success_dialog_title))
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {

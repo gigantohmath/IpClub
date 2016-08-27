@@ -62,16 +62,16 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
 
                     @Override public void onLongItemClick(View view, final int position) {
                         AlertDialog.Builder builder = new  AlertDialog.Builder(context);
-                        builder.setTitle("What to do ?")
-                                .setMessage("Delete or Edit the lesson. For only watching just click the lesson")
-                                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                        builder.setTitle(ClassRoomActivity.this.getString(R.string.what_to_do))
+                                .setMessage(ClassRoomActivity.this.getString(R.string.delete_or_edit_the_lesson))
+                                .setNegativeButton(ClassRoomActivity.this.getString(R.string.delete), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         int tempId = classRoomItems.get(position).id;
                                         deleteLessonFromClassRoom(tempId);
                                     }
                                 })
-                                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(ClassRoomActivity.this.getString(R.string.edit), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Intent tempIntent = new Intent(context,EditClassRoomLessonActivity.class);
@@ -80,10 +80,10 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
                                         startActivity(tempIntent);
                                     }
                                 })
-                                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                                .setNeutralButton(ClassRoomActivity.this.getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, ClassRoomActivity.this.getString(R.string.dialog_cancel), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         builder.show();
@@ -118,14 +118,14 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
                 loading(false);
                 if(response.code() == 200){
                     if(response.body().status == 200){
-                        Toast.makeText(context, "Deleted . . .", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, ClassRoomActivity.this.getString(R.string.delete_success), Toast.LENGTH_SHORT).show();
                         getDataFromServer();
                     }else{
-                        showError("Error: "+response.body().message);
+                        showError(ClassRoomActivity.this.getString(R.string.error)+":"+response.body().message);
                     }
 
                 }else{
-                    showError("Something went wrong. "+response.code());
+                    showError(ClassRoomActivity.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -158,11 +158,11 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
                         mAdapter = new ClassRoomAdapter(classRoomItems);
                         mRecyclerView.setAdapter(mAdapter);
                     }else{
-                        showError("Error: "+response.body().message);
+                        showError(ClassRoomActivity.this.getString(R.string.error)+":"+response.body().message);
                     }
 
                 }else{
-                    showError("Something went wrong. "+response.code());
+                    showError(ClassRoomActivity.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -196,7 +196,7 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
     @Override
     public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(ClassRoomActivity.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }

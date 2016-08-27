@@ -100,7 +100,7 @@ public class DocsActivity extends AppCompatActivity {
 
     private void showRrror(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(DocsActivity.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }

@@ -54,11 +54,11 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
                         lessonTitle.setText(response.body().content.lessonTitle);
                         title.setText(response.body().content.title);
                     }else{
-                        showError("Error: "+response.body().message);
+                        showError(ClassRoomLessonActivity.this.getString(R.string.error)+":"+response.body().message);
                     }
 
                 }else{
-                    showError("Something went wrong. "+response.code());
+                    showError(ClassRoomLessonActivity.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
             }
@@ -99,7 +99,7 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
     @Override
     public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-        .setTitleText("Oops...")
+        .setTitleText(ClassRoomLessonActivity.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }

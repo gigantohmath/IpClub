@@ -15,6 +15,6 @@
         android:paddingBottom="8dp"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:textSize="17dp"
-        android:text="Test text"/>
+        android:text="@string/testText"/>
 
 </LinearLayout>

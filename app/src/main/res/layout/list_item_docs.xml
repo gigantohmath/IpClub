@@ -11,7 +11,7 @@
         android:textSize="15sp"
         android:paddingTop="25dp"
         android:paddingBottom="25dp"
-        android:text="test item"
+        android:text="@string/testItem"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
 
 </LinearLayout>

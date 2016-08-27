@@ -30,7 +30,7 @@
                     android:id="@+id/classRoomTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="ClassRoom Title"
+                    android:text="@string/classRoomTitle"
                     android:textSize="25sp"
                     android:textAlignment="center"
                     android:gravity="center" />
@@ -47,7 +47,7 @@
                     android:id="@+id/lessonTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Lesson Title"
+                    android:text="@string/lessonTitle"
                     android:gravity="center"
                     android:textSize="18sp" />
 

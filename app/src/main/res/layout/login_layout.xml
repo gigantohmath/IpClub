@@ -42,7 +42,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="Username" />
+                    android:hint="@string/username" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -59,14 +59,14 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="Password" />
+                    android:hint="@string/password_text" />
             </android.support.design.widget.TextInputLayout>
 
 
             <Button
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="#333"
                 android:background="@drawable/login_button"
                 android:id="@+id/loginButton"
@@ -76,15 +76,6 @@
                 android:layout_marginTop="30dp"
                 android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Forgot your password ?"
-                android:layout_marginTop="20dp"
-                android:id="@+id/forgot_password_tv"
-                android:onClick="clickOnForgotPasswordText"
-                android:clickable="true" />
         </LinearLayout>
     </ScrollView>
 
