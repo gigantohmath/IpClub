@@ -10,7 +10,7 @@ import android.widget.EditText;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub._3_dashBoardSection.Dashboard;
-import ipclub.com.ipclub.R;
+import ipclub.com.ipclub.*;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,7 +34,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+    }
     public void onLoginButtonClick(View v){
 
         hideKeyboard();

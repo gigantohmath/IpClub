@@ -135,9 +135,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
                 Auth.IS_LOGGED=false;
                 auth.logout();
                 dialog.dismiss();
-                finish();
-
-
             }
         });
         dialog.showCancelButton(true);

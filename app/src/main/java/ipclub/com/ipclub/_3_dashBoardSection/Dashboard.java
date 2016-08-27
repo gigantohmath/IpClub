@@ -33,12 +33,6 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    public void logout(){
-        finish();
-        auth.logout();
-
-    }
-
     public void goTo(View v){
         Intent show;
         switch (v.getId()){
@@ -59,7 +53,6 @@ public class Dashboard extends AppCompatActivity {
             case R.id.settings:
                 show=new Intent(this, ChangePasswordActivity.class);
                 startActivity(show);
-                finish();
                 break;
         }
     }
