@@ -134,6 +134,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
             public void onClick(SweetAlertDialog sweetAlertDialog) {
                 Auth.IS_LOGGED=false;
                 auth.logout();
+                dialog.dismiss();
                 finish();
 
 
@@ -143,7 +144,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
         dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                dialog.cancel();
+                dialog.dismiss();
             }
         });
         dialog.setCancelText("cancel");
@@ -174,9 +175,14 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
     @Override
     public void loading(boolean show) {
         if (show){
+            if(customProgress == null){
+                initCustomLoading();
+            }
             customProgress.show();
         }else {
             customProgress.hide();
+            customProgress.dismiss();
+            customProgress = null;
         }
     }
 

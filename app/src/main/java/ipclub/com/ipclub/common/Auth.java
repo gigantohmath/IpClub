@@ -211,11 +211,14 @@ public class Auth {
 
     private void loading(boolean show){
         if (show){
-            //pLoading.show();
+            if(customProgress == null){
+                initCustomLoading();
+            }
             customProgress.show();
         }else {
-            //pLoading.hide();
             customProgress.hide();
+            customProgress.dismiss();
+            customProgress = null;
         }
     }
 }
