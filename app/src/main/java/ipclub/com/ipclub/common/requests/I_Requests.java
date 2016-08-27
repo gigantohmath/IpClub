@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ipclub.com.ipclub._5_docsSection.DocsContent;
+import ipclub.com.ipclub._5_docsSection.docsItem.DocsItemActivity;
+import ipclub.com.ipclub._5_docsSection.docsItem.docsItemContent;
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomItem;
 import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonContent;
 import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.EditLessonContent;
@@ -101,6 +103,13 @@ public interface I_Requests {
             @Field("title") String title,
             @Field("translation") String translation,
             @Path("course") String course,
+            @Header("token") String token
+    );
+
+    @GET("/rest/{course}/docs/{id}")
+    Call<Responses<docsItemContent>> getDocLesson(
+            @Path("course") String course,
+            @Path("id") int id,
             @Header("token") String token
     );
 }

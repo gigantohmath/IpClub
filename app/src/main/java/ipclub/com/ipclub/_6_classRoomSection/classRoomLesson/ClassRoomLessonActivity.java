@@ -99,7 +99,7 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
     @Override
     public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+        .setTitleText("Oops...")
                 .setContentText(text)
                 .show();
     }
@@ -107,9 +107,14 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
     @Override
     public void loading(boolean show) {
         if (show){
+            if(customProgress == null){
+                initCustomLoading();
+            }
             customProgress.show();
         }else {
             customProgress.hide();
+            customProgress.dismiss();
+            customProgress = null;
         }
     }
 }

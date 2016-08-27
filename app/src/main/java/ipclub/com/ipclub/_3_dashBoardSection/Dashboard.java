@@ -9,6 +9,7 @@ import ipclub.com.ipclub.R;
 import ipclub.com.ipclub._2_changePasswordSection.ChangePasswordActivity;
 import ipclub.com.ipclub._5_docsSection.DocsActivity;
 import ipclub.com.ipclub._5_docsSection.DocsContent;
+import ipclub.com.ipclub._5_docsSection.docsItem.DocsItemActivity;
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomActivity;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub._4_vocabularySection.Vocabulary;
@@ -53,7 +54,7 @@ public class Dashboard extends AppCompatActivity {
 
                 break;
             case  R.id.docs:
-                show = new Intent(this, DocsActivity.class);
+                show = new Intent(this, DocsItemActivity.class);
                 startActivity(show);
                 break;
             case R.id.settings:
@@ -61,6 +62,8 @@ public class Dashboard extends AppCompatActivity {
                 startActivity(show);
                 finish();
                 break;
+
+
         }
     }
 
