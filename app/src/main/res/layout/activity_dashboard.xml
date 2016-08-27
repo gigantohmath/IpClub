@@ -5,29 +5,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="._3_dashBoardSection.Dashboard">
-<!--
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="25dp"
-        android:text="Welcome\n This is your dashboard."/>
+    <!--
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:text="Welcome\n This is your dashboard."/>
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/myToken"
-        android:text="Your token: "/>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/myToken"
+            android:text="Your token: "/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:onClick="logout"
-        android:text="LogOut"/>
-        -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:onClick="logout"
+            android:text="LogOut"/>
+            -->
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal"
@@ -37,21 +38,25 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@color/menuBg1"
+            android:background="@drawable/dashboard"
             android:gravity="center"
             android:clickable="true"
             android:onClick="goTo"
             android:id="@+id/vocabulary"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">
-
+            <ImageView
+                android:src="@drawable/vocabulary_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:textSize="15dp"
-                android:text="Vocabulary"/>
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:text="Vocabulary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,17 +67,22 @@
             android:clickable="true"
             android:onClick="goTo"
             android:id="@+id/docs"
-            android:background="@color/menuBg2"
+            android:background="@drawable/dashboard"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:src="@drawable/docs_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:textSize="15dp"
+                android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
-                android:text="Docs"/>
+                android:text="Docs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>
@@ -89,18 +99,23 @@
             android:gravity="center"
             android:clickable="true"
             android:onClick="goTo"
-            android:background="@color/menuBg3"
+            android:background="@drawable/dashboard"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent"
             android:id="@+id/classRoom">
 
+            <ImageView
+                android:src="@drawable/classroom_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:textSize="15dp"
-                android:text="Classroom"/>
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:text="Classroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -108,17 +123,21 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/menuBg4"
+            android:background="@drawable/dashboard"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">
-
+            <ImageView
+                android:src="@drawable/resources_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:textSize="15dp"
+                android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
-                android:text="Resources"/>
+                android:text="Resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>
@@ -132,17 +151,22 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/menuBg5"
+            android:background="@drawable/dashboard"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:src="@drawable/quizes_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:textSize="15dp"
-                android:text="Quizes"/>
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:text="Quizes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -150,20 +174,25 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@color/menuBg6"
+            android:background="@drawable/dashboard"
             android:gravity="center"
             android:onClick="goTo"
             android:clickable="true"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:src="@drawable/settings_dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:textSize="15dp"
-                android:text="Settings"/>
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:text="Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>
