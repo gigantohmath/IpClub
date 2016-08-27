@@ -29,14 +29,19 @@ public class LoginActivity extends AppCompatActivity {
         if(auth.checkLoggedIn()){
             Intent show = new Intent(this, Dashboard.class);
             startActivity(show);
-            finish();
+
         }
 
     }
 
     @Override
     public void onBackPressed() {
-
+        Intent launchNextActivity;
+        launchNextActivity = new Intent(this, A.class);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(launchNextActivity);
     }
     public void onLoginButtonClick(View v){
 
