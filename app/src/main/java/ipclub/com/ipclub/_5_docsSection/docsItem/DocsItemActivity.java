@@ -221,19 +221,20 @@ public class DocsItemActivity extends AppCompatActivity
                         if(files.size()!=0){
                             subMenu = menu.addSubMenu("Files");
 
-                            if(temp==67){
+                            if(files.size()==1){
+
                                 getDocExampleFileFromServer(response.body().content.files.get(0).id,0);
 
                             }
 
                             else{
-
-                                for(int i=0;i<files.size();i++){
+                                getDocExampleFileFromServer(response.body().content.files.get(0).id,0);
+                                for(int i=1;i<files.size();i++){
 
                                     subMenu.add("TempTitle" + i);
                                 }
 
-                                for(int i=0;i<files.size();i++){
+                                for(int i=1;i<files.size();i++){
 
                                     getDocExampleFileFromServer(response.body().content.files.get(i).id,i);
                                 }
@@ -275,15 +276,15 @@ public class DocsItemActivity extends AppCompatActivity
                 if(response.code() == 200){
                     if(response.body().status == 200){
                         DocsItemFileContent content = response.body().content;
-                        if(temp==59){
+                        if(position==0){
 
                             chooseDownloadOrOpen(response.body().content.link);
                         }
 
                         else{
                             tempLinkFromDocNavToIntentChooser = content.link;
-                            subMenu.getItem(position).setTitle(content.title);
-                            subMenu.getItem(position).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            subMenu.getItem(position-1).setTitle(content.title);
+                            subMenu.getItem(position-1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(MenuItem menuItem) {
 
