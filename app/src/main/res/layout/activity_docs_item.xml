@@ -7,11 +7,27 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
     <include
         layout="@layout/app_bar_docs_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+
+
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.github.barteksc.pdfviewer.PDFView>
+
+</FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -21,12 +37,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_docs_item"
         app:menu="@menu/activity_docs_item_drawer" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/click"
-        android:onClick="clickDoceItem"/>
 
 
 </android.support.v4.widget.DrawerLayout>

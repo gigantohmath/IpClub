@@ -1,5 +1,6 @@
 package ipclub.com.ipclub._5_docsSection;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._5_docsSection.docsItem.DocsItemActivity;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.common.responses.Responses;
@@ -46,6 +48,18 @@ public class DocsActivity extends AppCompatActivity {
         auth = new Auth(this);
         initCustomLoading();
         getDataFromServer();
+
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long id) {
+                    int tempID =sections.get(groupPosition).lessons.get(childPosition).id;
+                    Intent toDocsItemActivty = new Intent(DocsActivity.this, DocsItemActivity.class);
+                    toDocsItemActivty.putExtra("id",tempID);
+                    startActivity(toDocsItemActivty);
+
+                return false;
+            }
+        });
     }
 
     private void getDataFromServer() {

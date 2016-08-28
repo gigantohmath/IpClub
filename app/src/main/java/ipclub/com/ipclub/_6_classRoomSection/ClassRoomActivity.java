@@ -203,9 +203,14 @@ public class ClassRoomActivity extends AppCompatActivity implements I_CommonMeth
     @Override
     public void loading(boolean show){
         if (show){
+            if(customProgress == null){
+                initCustomLoading();
+            }
             customProgress.show();
         }else {
             customProgress.hide();
+            customProgress.dismiss();
+            customProgress = null;
         }
     }
 

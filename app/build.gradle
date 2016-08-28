@@ -35,4 +35,5 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
     compile project(":pullToRefresh")
     compile files('libs/JavaPrettify-1.2.1.jar')
+    compile 'com.github.barteksc:android-pdf-viewer:2.0.2'
 }

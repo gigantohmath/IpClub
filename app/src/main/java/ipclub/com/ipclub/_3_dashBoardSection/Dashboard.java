@@ -48,9 +48,10 @@ public class Dashboard extends AppCompatActivity {
 
                 break;
             case  R.id.docs:
-                show = new Intent(this, DocsItemActivity.class);
+                show = new Intent(this, DocsActivity.class);
                 startActivity(show);
                 break;
+
             case R.id.settings:
                 show=new Intent(this, ChangePasswordActivity.class);
                 startActivity(show);

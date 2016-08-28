@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ipclub.com.ipclub._5_docsSection.DocsContent;
-import ipclub.com.ipclub._5_docsSection.docsItem.DocsItemActivity;
+import ipclub.com.ipclub._5_docsSection.docsItem.DocsItemFileContent;
 import ipclub.com.ipclub._5_docsSection.docsItem.docsItemContent;
 import ipclub.com.ipclub._6_classRoomSection.ClassRoomItem;
 import ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonContent;
@@ -106,8 +106,15 @@ public interface I_Requests {
             @Header("token") String token
     );
 
-    @GET("/rest/{course}/docs/{id}")
+    @GET("/rest/{course}/docs/lesson/{id}")
     Call<Responses<docsItemContent>> getDocLesson(
+            @Path("course") String course,
+            @Path("id") int id,
+            @Header("token") String token
+    );
+
+    @GET("/rest/{course}/files/get/{id}")
+    Call<Responses<DocsItemFileContent>> getDocLessonFile(
             @Path("course") String course,
             @Path("id") int id,
             @Header("token") String token
