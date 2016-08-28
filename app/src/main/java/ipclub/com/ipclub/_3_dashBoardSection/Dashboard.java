@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._1_loginSection.A;
 import ipclub.com.ipclub._2_changePasswordSection.ChangePasswordActivity;
 import ipclub.com.ipclub._5_docsSection.DocsActivity;
 import ipclub.com.ipclub._5_docsSection.DocsContent;
@@ -28,6 +29,16 @@ public class Dashboard extends AppCompatActivity {
 
         initView();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent launchNextActivity;
+        launchNextActivity = new Intent(this, A.class);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(launchNextActivity);
     }
 
     private void initView(){
