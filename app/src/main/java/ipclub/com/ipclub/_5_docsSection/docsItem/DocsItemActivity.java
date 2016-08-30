@@ -202,8 +202,10 @@ public class DocsItemActivity extends AppCompatActivity
                         if(classRooms.size()>0){
                              subMenu = menu.addSubMenu("Classrooms");
                             for (int i = 0; i < classRooms.size(); i++) {
+
                                 subMenu.add(classRooms.get(i).title);
                                 tempIDfromDocNavToClassRoomLesson = classRooms.get(i).id;
+                                subMenu.getItem(i).setIcon(R.drawable.classroom_nav);
                                 subMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem menuItem) {
@@ -284,6 +286,7 @@ public class DocsItemActivity extends AppCompatActivity
                         else{
                             tempLinkFromDocNavToIntentChooser = content.link;
                             subMenu.getItem(position-1).setTitle(content.title);
+                            subMenu.getItem(position-1).setIcon(R.drawable.external_link);
                             subMenu.getItem(position-1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(MenuItem menuItem) {

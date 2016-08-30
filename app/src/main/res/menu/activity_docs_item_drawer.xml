@@ -24,7 +24,8 @@
             android:title="Quizes" />
     </group>
 
-    <item android:title="Tools">
+    <item android:title="Tools"
+          >
         <menu>
             <item
                 android:id="@+id/nav_settings"
