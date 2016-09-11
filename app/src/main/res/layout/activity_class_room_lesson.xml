@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/classroom_lessons_drawer_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity"
     android:background="@color/black">
 
@@ -62,4 +64,13 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/classroom_lessons_nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_docs_item"
+        app:menu="@menu/activity_docs_item_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

@@ -2,23 +2,33 @@ package ipclub.com.ipclub._4_vocabularySection;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import ipclub.com.ipclub.R;
+import ipclub.com.ipclub._2_changePasswordSection.ChangePasswordActivity;
+import ipclub.com.ipclub._5_docsSection.DocsActivity;
+import ipclub.com.ipclub._6_classRoomSection.ClassRoomActivity;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub.common.IPC_Application;
+import ipclub.com.ipclub.common.NavigationItemSelector;
 import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddEditVocabulary extends AppCompatActivity {
+public class AddEditVocabulary extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     EditText title;
     EditText trans;
@@ -29,6 +39,10 @@ public class AddEditVocabulary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_vocabulary);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.add_vocabulary_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         auth = new Auth(this);
         initCustomLoading();
 
@@ -84,5 +98,18 @@ public class AddEditVocabulary extends AppCompatActivity {
             customProgress.dismiss();
             customProgress = null;
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        NavigationItemSelector n = new NavigationItemSelector();
+        n.doSelectedAction(this, id);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.add_vocabulary_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return false;
     }
 }

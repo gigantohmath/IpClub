@@ -2,12 +2,17 @@ package ipclub.com.ipclub._6_classRoomSection.classRoomLesson;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,11 +21,13 @@ import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.common.I_CommonMethodsForWorkingWithServer;
+import ipclub.com.ipclub.common.NavigationItemSelector;
 import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ClassRoomLessonActivity extends AppCompatActivity implements I_CommonMethodsForWorkingWithServer{
+public class ClassRoomLessonActivity extends AppCompatActivity
+        implements I_CommonMethodsForWorkingWithServer, NavigationView.OnNavigationItemSelectedListener{
     private AlertDialog customProgress;
     private Auth auth;
     private TextView content,lessonTitle,title;
@@ -31,6 +38,10 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
         content = (TextView)findViewById(R.id.classRoomItemBody);
         lessonTitle = (TextView)findViewById(R.id.lessonTitle);
         title = (TextView)findViewById(R.id.title);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.classroom_lessons_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         auth = new Auth(this);
         Intent mIntent = getIntent();
         int intValue = mIntent.getIntExtra("id",0);
@@ -116,5 +127,17 @@ public class ClassRoomLessonActivity extends AppCompatActivity implements I_Comm
             customProgress.dismiss();
             customProgress = null;
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        NavigationItemSelector n = new NavigationItemSelector();
+        n.doSelectedAction(this, id);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.classroom_lessons_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return false;
     }
 }

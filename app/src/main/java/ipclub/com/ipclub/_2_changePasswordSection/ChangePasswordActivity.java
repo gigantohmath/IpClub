@@ -2,12 +2,17 @@ package ipclub.com.ipclub._2_changePasswordSection;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,12 +26,14 @@ import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.common.EmptyContent;
 import ipclub.com.ipclub.common.I_CommonMethodsForWorkingWithServer;
+import ipclub.com.ipclub.common.NavigationItemSelector;
 import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChangePasswordActivity extends AppCompatActivity implements I_CommonMethodsForWorkingWithServer {
+public class ChangePasswordActivity extends AppCompatActivity
+        implements I_CommonMethodsForWorkingWithServer, NavigationView.OnNavigationItemSelectedListener {
     private EditText password_et;
     private EditText newPssword_et;
     private EditText repeatPassword_et;
@@ -46,6 +53,8 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
     }
 
     private void initView() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.change_password_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         password_et=(EditText)findViewById(R.id.password_change_password);
         newPssword_et=(EditText)findViewById(R.id.new_password_change_password);
         repeatPassword_et=(EditText)findViewById(R.id.repeat_password_change_password);
@@ -187,5 +196,18 @@ public class ChangePasswordActivity extends AppCompatActivity implements I_Commo
     @Override
     public void getDataFromServer() {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        NavigationItemSelector n = new NavigationItemSelector();
+        n.doSelectedAction(this, id);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.change_password_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return false;
     }
 }

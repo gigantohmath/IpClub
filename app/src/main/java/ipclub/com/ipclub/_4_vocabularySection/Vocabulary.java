@@ -4,7 +4,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -21,11 +26,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.R;
+import ipclub.com.ipclub.common.NavigationItemSelector;
 import ipclub.com.ipclub.common.responses.Responses;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class Vocabulary extends AppCompatActivity {
+public class Vocabulary extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     SweetAlertDialog pLoading;
     public Auth auth;
@@ -47,6 +53,9 @@ public class Vocabulary extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.vocabulary_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -152,5 +161,19 @@ public class Vocabulary extends AppCompatActivity {
                 .setTitleText(Vocabulary.this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        NavigationItemSelector n = new NavigationItemSelector();
+        n.doSelectedAction(this, id);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.vocabulary_drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        return false;
     }
 }
