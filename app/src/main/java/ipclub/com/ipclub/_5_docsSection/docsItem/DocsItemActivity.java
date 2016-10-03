@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -68,6 +69,8 @@ public class DocsItemActivity extends AppCompatActivity
     private String tempLinkFromDocNavToIntentChooser;
     private Menu menu;
     private SubMenu subMenu;
+    private String link,localLink;
+    private boolean showOrDownload = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -279,8 +282,10 @@ public class DocsItemActivity extends AppCompatActivity
                     if(response.body().status == 200){
                         DocsItemFileContent content = response.body().content;
                         if(position==0){
-
-                            chooseDownloadOrOpen(response.body().content.link);
+                            showOrDownload=false;
+                           link = response.body().content.link;
+                           AsyncPDFDownload  apd = new AsyncPDFDownload();
+                            apd.execute();
                         }
 
                         else{
@@ -321,10 +326,41 @@ public class DocsItemActivity extends AppCompatActivity
                 Log.e("MY", "error: " + t.getMessage());
             }
         });
-
     }
 
+
+    private class AsyncPDFDownload extends AsyncTask<Void,Void,Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            chooseDownloadOrOpen(link);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            File dir = new File(Environment.getExternalStorageDirectory(), folderDir);
+            File file = new File(dir, takeTheNameOfFile(localLink));
+            if(!showOrDownload){
+
+                PDFDownloader.DownloadFile(I_Requests.address+localLink, file);
+            }
+            if(showOrDownload){
+
+                showPDF(file);
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+
+
     public void chooseDownloadOrOpen(String s){
+        localLink=s;
         File dir = new File(Environment.getExternalStorageDirectory(), folderDir);
         if (!dir.exists()) {
             dir.mkdir();
@@ -334,15 +370,14 @@ public class DocsItemActivity extends AppCompatActivity
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            PDFDownloader.DownloadFile(I_Requests.address+s, file);
+            showOrDownload=false;
         }
 
 
         else{
             File file = new File(dir, takeTheNameOfFile(s));
             if(file.exists() && file.length()>0){
-
-                showPDF(file);
+                showOrDownload = true;
 
             }
 
@@ -355,7 +390,7 @@ public class DocsItemActivity extends AppCompatActivity
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                PDFDownloader.DownloadFile(I_Requests.address+s, file);
+                showOrDownload=false;
 
             }
 
