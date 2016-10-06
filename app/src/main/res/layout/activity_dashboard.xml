@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="._3_dashBoardSection.Dashboard">
+    tools:context="._3_dashBoardSection.Dashboard"
+    android:background="@drawable/whitedesign">
     <!--
         <TextView
             android:layout_width="match_parent"
@@ -27,176 +28,227 @@
             android:onClick="logout"
             android:text="LogOut"/>
             -->
-    <LinearLayout
 
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="4"
         android:orientation="horizontal"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
-        <LinearLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:background="@drawable/dashboard"
-            android:gravity="center"
-            android:clickable="true"
-            android:onClick="goTo"
-            android:id="@+id/vocabulary"
-            android:layout_gravity="center_vertical"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/vocabulary_dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15dp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="Vocabulary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:onClick="goTo"
-            android:id="@+id/docs"
-            android:background="@drawable/dashboard"
-            android:layout_gravity="center_vertical"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:src="@drawable/docs_dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15dp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="Docs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:onClick="goTo"
-            android:background="@drawable/dashboard"
-            android:layout_gravity="center_vertical"
             android:layout_height="match_parent"
-            android:id="@+id/classRoom">
+            android:id="@+id/imageView3"
+            android:background="@mipmap/logo"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp" />
+    </LinearLayout>
 
-            <ImageView
-                android:src="@drawable/classroom_dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15dp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="Classroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+    <LinearLayout tools:context="._3_dashBoardSection.Dashboard"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/layeffect"
+        android:layout_gravity="center" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:onClick="goTo"
+                android:id="@+id/vocabulary"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttoneffect4"
+                android:gravity="center"
+                android:layout_marginRight="2dp">
+
+                <ImageView
+                    android:src="@drawable/vocabulary_dashboard2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="Vocabulary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:onClick="goTo"
+                android:id="@+id/docs"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttoneffect4"
+                android:gravity="center"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:src="@drawable/docs_dashboard2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="Docs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/dashboard"
-            android:layout_gravity="center_vertical"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/resources_dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15dp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="Resources"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:layout_gravity="center" >
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:onClick="goTo"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:id="@+id/classRoom"
+                android:background="@drawable/buttoneffect4"
+                android:gravity="center"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp" >
+
+                <ImageView
+                    android:src="@drawable/classroom_dashboard2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="Classroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:onClick="goTo"
+                android:clickable="true"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttoneffect4"
+                android:gravity="center"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="2dp" >
+
+                <ImageView
+                    android:src="@drawable/settings_dashboard2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textSize="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:text="Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:background="#d6cab6" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/dashboard"
-            android:layout_gravity="center_vertical"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:src="@drawable/quizes_dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15dp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="Quizes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/settings"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:background="@drawable/dashboard"
-            android:gravity="center"
-            android:onClick="goTo"
+            android:background="@drawable/buttoneffect4"
+            android:layout_marginRight="1dp"
             android:clickable="true"
-            android:layout_gravity="center_vertical"
-            android:layout_height="match_parent">
+            android:visibility="gone">
 
             <ImageView
-                android:src="@drawable/settings_dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="40dp"
+                android:layout_height="32dp"
+                android:id="@+id/imageView2"
+                android:layout_gravity="center"
+                android:background="@drawable/user" />
+
             <TextView
-                android:layout_marginTop="5dp"
                 android:textSize="15dp"
-                android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
-                android:text="Settings"
+                android:text="MyProfile"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="12dp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/buttoneffect4"
+            android:clickable="true"
+            android:onClick="onLogoutImageClick" >
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageView5"
+                android:layout_gravity="center"
+                android:background="@drawable/logut"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:text="Logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:layout_marginTop="9dp" />
+        </LinearLayout>
     </LinearLayout>
-
-
 
 </LinearLayout>

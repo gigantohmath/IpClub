@@ -47,7 +47,6 @@ public class Dashboard extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
 
 
-            Toast.makeText(this, "Not Granted !", Toast.LENGTH_SHORT).show();
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -60,7 +59,6 @@ public class Dashboard extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
 
 
-            Toast.makeText(this, "Not Granted !", Toast.LENGTH_SHORT).show();
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -70,7 +68,6 @@ public class Dashboard extends AppCompatActivity {
 
         else{
 
-            Toast.makeText(this, "Granted !", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -81,9 +78,7 @@ public class Dashboard extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Granted WRITE!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "NOT Granted WRITE!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -91,9 +86,7 @@ public class Dashboard extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST_2: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Granted READ!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "NOT Granted READ!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
