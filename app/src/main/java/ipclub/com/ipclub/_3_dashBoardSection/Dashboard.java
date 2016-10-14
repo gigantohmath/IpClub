@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub._1_loginSection.A;
 import ipclub.com.ipclub._2_changePasswordSection.ChangePasswordActivity;
@@ -26,6 +27,7 @@ public class Dashboard extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_2=102 ;
     private Auth auth;
+    private SweetAlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,4 +137,29 @@ public class Dashboard extends AppCompatActivity {
         }
     }
 
+    public void onLogoutImageClick(View view) {
+        showLogoutDialog();
+    }
+    public void showLogoutDialog(){
+        dialog= new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText(this.getString(R.string.log_out_dialog_title));
+        dialog.setContentText(this.getString(R.string.log_out_dialog_text));
+        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                Auth.IS_LOGGED=false;
+                auth.logout();
+                dialog.dismiss();
+            }
+        });
+        dialog.showCancelButton(true);
+        dialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setCancelText(this.getString(R.string.dialog_cancel));
+        dialog.show();
+    }
 }
