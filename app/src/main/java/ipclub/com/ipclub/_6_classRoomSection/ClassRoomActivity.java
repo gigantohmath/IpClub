@@ -45,7 +45,7 @@ public class ClassRoomActivity extends AppCompatActivity
     private List<ClassRoomItem> classRoomItems;
     private Auth auth;
     private AlertDialog customProgress;
-    private PullToRefreshView mPullToRefreshView;
+    //private PullToRefreshView mPullToRefreshView;
     private static int REFRESH_DELAY = 1500;
     private Context context;
     @Override
@@ -104,19 +104,19 @@ public class ClassRoomActivity extends AppCompatActivity
 
         initCustomLoading();
         getDataFromServer();
-        mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getDataFromServer();
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                }, REFRESH_DELAY);
-            }
-        });
+//        mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
+//        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                mPullToRefreshView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getDataFromServer();
+//                        mPullToRefreshView.setRefreshing(false);
+//                    }
+//                }, REFRESH_DELAY);
+//            }
+//        });
 
     }
 
