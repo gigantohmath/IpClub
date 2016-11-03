@@ -2,16 +2,13 @@ package ipclub.com.ipclub.common;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.view.MenuItem;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
-import ipclub.com.ipclub._2_changePasswordSection.ChangePasswordActivity;
-import ipclub.com.ipclub._4_vocabularySection.Vocabulary;
-import ipclub.com.ipclub._5_docsSection.DocsActivity;
-import ipclub.com.ipclub._6_classRoomSection.ClassRoomActivity;
+import ipclub.com.ipclub.changePasswordSection.ChangePasswordActivity;
+import ipclub.com.ipclub.vocabularySection.Vocabulary;
+import ipclub.com.ipclub.docsSection.DocsActivity;
+import ipclub.com.ipclub.classRoomSection.ClassRoomActivity;
 
 /**
  * Created by User on 11.09.2016.

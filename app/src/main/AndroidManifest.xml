@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name="._1_loginSection.LoginActivity"
+            android:name=".loginSection.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -27,26 +27,26 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="._3_dashBoardSection.Dashboard"
+            android:name=".dashBoardSection.Dashboard"
             android:label="@string/dashboard" />
         <activity
-            android:name="._4_vocabularySection.Vocabulary"
+            android:name=".vocabularySection.Vocabulary"
             android:label="@string/vocabulary"
-            android:parentActivityName="._3_dashBoardSection.Dashboard" />
-        <activity android:name="._6_classRoomSection.ClassRoomActivity" />
+            android:parentActivityName=".dashBoardSection.Dashboard" />
+        <activity android:name=".classRoomSection.ClassRoomActivity" />
         <activity
-            android:name="._2_changePasswordSection.ChangePasswordActivity"
+            android:name=".changePasswordSection.ChangePasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name="._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity" />
-        <activity android:name="._6_classRoomSection.classRoomLesson.EditClassRoomLessonActivity" />
-        <activity android:name="._5_docsSection.DocsActivity" />
-        <activity android:name="._4_vocabularySection.AddEditVocabulary" />
+        <activity android:name=".classRoomSection.classRoomLesson.ClassRoomLessonActivity" />
+        <activity android:name=".classRoomSection.classRoomLesson.EditClassRoomLessonActivity" />
+        <activity android:name=".docsSection.DocsActivity" />
+        <activity android:name=".vocabularySection.AddEditVocabulary" />
         <activity
-            android:name="._5_docsSection.docsItem.DocsItemActivity"
+            android:name=".docsSection.docsItem.DocsItemActivity"
             android:label="@string/title_activity_docs_item"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="._1_loginSection.A"></activity>
+        <activity android:name=".loginSection.A"></activity>
     </application>
 
 </manifest>

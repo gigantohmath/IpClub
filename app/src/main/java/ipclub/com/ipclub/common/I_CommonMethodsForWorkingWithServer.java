@@ -7,7 +7,5 @@ public interface I_CommonMethodsForWorkingWithServer {
 
     void getDataFromServer();
     void sendDataToServer(String... strings);
-    void initCustomLoading();
     void showError(String text);
-    void loading(boolean show);
 }

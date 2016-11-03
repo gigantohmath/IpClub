@@ -55,7 +55,7 @@ public class LoadingView extends View {
         Paint mCirclePaint = new Paint();
 
         mCirclePaint.setColor(Color.LTGRAY);
-        mCirclePaint.setStrokeWidth(1);
+        mCirclePaint.setStrokeWidth(3);
         mCirclePaint.setStyle(Paint.Style.STROKE);
 
         canv.drawCircle(centerX, centerY, radius, mCirclePaint);

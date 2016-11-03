@@ -16,11 +16,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import ipclub.com.ipclub._3_dashBoardSection.Dashboard;
 import ipclub.com.ipclub.R;
-import ipclub.com.ipclub._1_loginSection.LoginContent;
-import ipclub.com.ipclub._1_loginSection.LoginActivity;
+import ipclub.com.ipclub.dashBoardSection.Dashboard;
+import ipclub.com.ipclub.loginSection.LoginContent;
+import ipclub.com.ipclub.loginSection.LoginActivity;
 import ipclub.com.ipclub.common.responses.Responses;
+import ipclub.com.ipclub.utils.IPCProgressDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,34 +33,32 @@ public class Auth {
 
     public Context context;
     public Activity activity;
-    SweetAlertDialog pLoading;
-    AlertDialog customProgress;
     public static boolean IS_LOGGED=false;
     public  static final String TOKEN_PREFERENCE = "access_token";
     public  static final String TOKEN = "token";
     public  static final String DATE = "date";
     private long currentTime;
     public  SharedPreferences sharedpref;
+    private IPCProgressDialog ipcProgressDialog;
 
     public Auth(Context context) {
         this.context = context;
         activity = (Activity) context;
-        //initLoading();
-        initCustomLoading();
         sharedpref = context.getSharedPreferences(TOKEN_PREFERENCE, context.MODE_PRIVATE);
         currentTime = System.currentTimeMillis();
+        ipcProgressDialog = new IPCProgressDialog(context);
     }
 
 
 
 
     public void login(final String username, final String password){
-        loading(true);
+        ipcProgressDialog.showIPCProgressDialog();
         IPC_Application.i().w().login(username, password).enqueue(new Callback<Responses<LoginContent>>() {
 
             @Override
             public void onResponse(Call<Responses<LoginContent>> call, retrofit2.Response<Responses<LoginContent>> response) {
-                loading(false);
+                ipcProgressDialog.hideIPCProgressDialog();
                 if(response.code() == 200){
                     Log.e("MY", "onResponse() returned: " + response.body().status);
 
@@ -80,7 +79,7 @@ public class Auth {
 
             @Override
             public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
-                loading(false);
+                ipcProgressDialog.hideIPCProgressDialog();
 
                 if(t.getMessage().startsWith("Unable to resolve host")){
                     showRrror(context.getString(R.string.no_internet_text));
@@ -168,11 +167,11 @@ public class Auth {
     }
 
     private void refreshToken(String oldToken){
-        loading(true);
+        ipcProgressDialog.showIPCProgressDialog();
         IPC_Application.i().w().refreshToken(oldToken).enqueue(new Callback<Responses<LoginContent>>() {
             @Override
             public void onResponse(Call<Responses<LoginContent>> call, Response<Responses<LoginContent>> response) {
-                loading(false);
+                ipcProgressDialog.hideIPCProgressDialog();
                 if(response.code() == 200){
                     if(response.body().status == 200){
                         String token = response.body().content.token;
@@ -184,41 +183,8 @@ public class Auth {
 
             @Override
             public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
-                loading(false);
+                ipcProgressDialog.hideIPCProgressDialog();
             }
         });
-    }
-
-    private void initLoading(){
-        pLoading = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
-        pLoading.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pLoading.setTitleText("Loading");
-        pLoading.setCancelable(false);
-    }
-
-    private void initCustomLoading() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_progress, null);
-        dialogBuilder.setView(dialogView);
-
-        dialogBuilder.setCancelable(false);
-
-        customProgress = dialogBuilder.create();
-        customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-    }
-
-    private void loading(boolean show){
-        if (show){
-            if(customProgress == null){
-                initCustomLoading();
-            }
-            customProgress.show();
-        }else {
-            customProgress.hide();
-            customProgress.dismiss();
-            customProgress = null;
-        }
     }
 }

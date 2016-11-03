@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="._4_vocabularySection.Vocabulary">
+    tools:context=".vocabularySection.Vocabulary">
 
 
     <android.support.v7.widget.RecyclerView

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/classroom_lessons_drawer_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="ipclub.com.ipclub._6_classRoomSection.classRoomLesson.ClassRoomLessonActivity"
+    tools:context="ipclub.com.ipclub.classRoomSection.classRoomLesson.ClassRoomLessonActivity"
     android:background="@color/black">
 
     <LinearLayout

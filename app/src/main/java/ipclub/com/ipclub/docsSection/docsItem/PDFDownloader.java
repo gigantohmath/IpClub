@@ -1,0 +1,40 @@
+package ipclub.com.ipclub.docsSection.docsItem;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+/**
+ * Created by sench on 8/28/2016.
+ */
+public class PDFDownloader {
+
+
+    public static void DownloadFile(String fileURL, File directory) {
+        try {
+
+            FileOutputStream f = new FileOutputStream(directory);
+            URL u = new URL(fileURL);
+            HttpURLConnection c = (HttpURLConnection) u.openConnection();
+            c.setRequestMethod("GET");
+            c.setDoOutput(true);
+            c.connect();
+
+            InputStream in = c.getInputStream();
+
+            byte[] buffer = new byte[1024];
+            int len1 = 0;
+            while ((len1 = in.read(buffer)) > 0) {
+                f.write(buffer, 0, len1);
+            }
+            f.close();
+            DocsItemActivity.showPDF(directory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+}

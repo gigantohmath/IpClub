@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:id="@+id/classroom_drawer_layout"
-    tools:context="._6_classRoomSection.ClassRoomActivity">
+    tools:context=".classRoomSection.ClassRoomActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
