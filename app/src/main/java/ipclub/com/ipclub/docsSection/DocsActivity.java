@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.changePasswordSection.ChangePasswordActivity;
+import ipclub.com.ipclub.common.CheckInternetConnection;
+import ipclub.com.ipclub.utils.IPCProgressDialog;
 import ipclub.com.ipclub.vocabularySection.Vocabulary;
 import ipclub.com.ipclub.docsSection.docsItem.DocsItemActivity;
 import ipclub.com.ipclub.classRoomSection.ClassRoomActivity;
@@ -33,14 +35,13 @@ import retrofit2.Response;
 public class DocsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public Auth auth;
-    AlertDialog customProgress;
-
     DocsContent content;
     ArrayList<SectionItem> sections;
     private  NavigationView navigationView;
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     private SweetAlertDialog dialog;
+    private IPCProgressDialog ipcProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +52,8 @@ public class DocsActivity extends AppCompatActivity implements NavigationView.On
         listAdapter = new ExpandableListAdapter(this, sections);
         expListView.setAdapter(listAdapter);
 
+        ipcProgressDialog = new IPCProgressDialog(this);
         auth = new Auth(this);
-        initCustomLoading();
         getDataFromServer();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -158,59 +159,41 @@ public class DocsActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getDataFromServer() {
-        loading(true);
-        final String token = auth.getToken();
-        loading(true);
-        IPC_Application.i().w().getDocList("Android_2016_1", token).enqueue(new Callback<Responses<DocsContent>>() {
-            @Override
-            public void onResponse(Call<Responses<DocsContent>> call, Response<Responses<DocsContent>> response) {
-                loading(false);
-                if(response.body().status == 200){
-                   content = response.body().content;
-                   sections.addAll(content.sections);
+        if(CheckInternetConnection.isConnected(this)){
+            ipcProgressDialog.showIPCProgressDialog();
+            final String token = auth.getToken();
+            String course =  IPC_Application.i().getPreferences().getSelectedCourse();
+            IPC_Application.i().w().getDocList(course, token).enqueue(new Callback<Responses<DocsContent>>() {
+                @Override
+                public void onResponse(Call<Responses<DocsContent>> call, Response<Responses<DocsContent>> response) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.body().status == 200){
+                        content = response.body().content;
+                        sections.addAll(content.sections);
 
-                   listAdapter.notifyDataSetChanged();
-                }else{
+                        listAdapter.notifyDataSetChanged();
+                    }else{
 
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Responses<DocsContent>> call, Throwable t) {
-                loading(false);
-            }
-        });
-
-    }
-
-
-    private void initCustomLoading() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_progress, null);
-        dialogBuilder.setView(dialogView);
-
-        dialogBuilder.setCancelable(false);
-
-        customProgress = dialogBuilder.create();
-        customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-    }
-
-    private void loading(boolean show){
-        if (show){
-            //pLoading.show();
-            customProgress.show();
-        }else {
-            //pLoading.hide();
-            customProgress.hide();
+                @Override
+                public void onFailure(Call<Responses<DocsContent>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                }
+            });
+        }else{
+            showError(getResources().getString(R.string.no_internet_text));
         }
+
+
     }
 
-    private void showRrror(String text) {
+    public void showError(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                .setTitleText(DocsActivity.this.getString(R.string.error_dialog_title))
+                .setTitleText(this.getString(R.string.error_dialog_title))
                 .setContentText(text)
                 .show();
     }
+
 }

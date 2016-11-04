@@ -4,14 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -26,25 +20,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by Artak on 8/14/2016.
- */
+
 public class Auth {
 
     public Context context;
     public Activity activity;
     public static boolean IS_LOGGED=false;
-    public  static final String TOKEN_PREFERENCE = "access_token";
-    public  static final String TOKEN = "token";
-    public  static final String DATE = "date";
     private long currentTime;
-    public  SharedPreferences sharedpref;
     private IPCProgressDialog ipcProgressDialog;
 
     public Auth(Context context) {
         this.context = context;
         activity = (Activity) context;
-        sharedpref = context.getSharedPreferences(TOKEN_PREFERENCE, context.MODE_PRIVATE);
         currentTime = System.currentTimeMillis();
         ipcProgressDialog = new IPCProgressDialog(context);
     }
@@ -53,46 +40,49 @@ public class Auth {
 
 
     public void login(final String username, final String password){
-        ipcProgressDialog.showIPCProgressDialog();
-        IPC_Application.i().w().login(username, password).enqueue(new Callback<Responses<LoginContent>>() {
+        if(CheckInternetConnection.isConnected(context)){
+            ipcProgressDialog.showIPCProgressDialog();
+            IPC_Application.i().w().login(username, password).enqueue(new Callback<Responses<LoginContent>>() {
 
-            @Override
-            public void onResponse(Call<Responses<LoginContent>> call, retrofit2.Response<Responses<LoginContent>> response) {
-                ipcProgressDialog.hideIPCProgressDialog();
-                if(response.code() == 200){
-                    Log.e("MY", "onResponse() returned: " + response.body().status);
+                @Override
+                public void onResponse(Call<Responses<LoginContent>> call, retrofit2.Response<Responses<LoginContent>> response) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.code() == 200){
+                        Log.e("MY", "onResponse() returned: " + response.body().status);
 
-                    String token = response.body().content.token;
-                    setToken(token);
-                    IS_LOGGED=true;
-                    Intent show = new Intent(context, Dashboard.class);
-                    context.startActivity(show);
-                    activity.finish();
+                        String token = response.body().content.token;
+                        setToken(token);
+                        IS_LOGGED=true;
+                        Intent show = new Intent(context, Dashboard.class);
+                        context.startActivity(show);
+                        activity.finish();
 
 
-                }else{
-                    Log.e("MY", "onResponse() returned: " + response.code());
-                    showRrror(context.getString(R.string.something_went_wrong)+response.code());
+                    }else{
+                        Log.e("MY", "onResponse() returned: " + response.code());
+                        showRrror(context.getString(R.string.something_went_wrong)+response.code());
+                    }
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
 
-            @Override
-            public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
-                ipcProgressDialog.hideIPCProgressDialog();
+                    if(t.getMessage().startsWith("Unable to resolve host")){
+                        showRrror(context.getString(R.string.no_internet_text));
+                    }
+                    else if(t.getMessage().startsWith("Can not deserialize")){
+                        showRrror(context.getString(R.string.wrong_username_password));
+                    }
+                    else{
+                        showRrror(context.getString(R.string.something_went_wrong));
+                    }
+                    Log.e("MY", "error: " + t.getMessage());
+                }
+            });
+        }
 
-                if(t.getMessage().startsWith("Unable to resolve host")){
-                    showRrror(context.getString(R.string.no_internet_text));
-                }
-                else if(t.getMessage().startsWith("Can not deserialize")){
-                    showRrror(context.getString(R.string.wrong_username_password));
-                }
-                else{
-                    showRrror(context.getString(R.string.something_went_wrong));
-                }
-                Log.e("MY", "error: " + t.getMessage());
-            }
-        });
     }
 
     private void showRrror(String text) {
@@ -103,7 +93,7 @@ public class Auth {
     }
 
     public boolean checkLoggedIn(){
-        String token = sharedpref.getString(TOKEN, "");
+        String token = IPC_Application.i().getPreferences().getToken();
 
         if(token.equals("")){
             return false;
@@ -112,32 +102,24 @@ public class Auth {
     }
 
     public void logout(){
-        SharedPreferences.Editor editor = sharedpref.edit();
-        editor.clear();
-        editor.commit();
+        IPC_Application.i().getPreferences().clear();
         Intent show = new Intent(context, LoginActivity.class);
         context.startActivity(show);
     }
 
     private void setToken(String token){
 
-        SharedPreferences.Editor editor = sharedpref.edit();
-        editor.putString(TOKEN, token);
-        editor.putLong(DATE, currentTime);
-        editor.commit();
+        IPC_Application.i().getPreferences().setToken(token);
+        IPC_Application.i().getPreferences().setTokenDate(currentTime);
     }
 
     private void updateTokenDate(){
-
-        SharedPreferences.Editor editor = sharedpref.edit();
-        editor.putLong(DATE, currentTime);
-        editor.commit();
-
+        IPC_Application.i().getPreferences().setTokenDate(currentTime);
     }
 
     public void checkTokenDate(){
-        String token = sharedpref.getString(TOKEN, "");
-        long lastUse = sharedpref.getLong(DATE, 0L);
+        String token = IPC_Application.i().getPreferences().getToken();
+        long lastUse = IPC_Application.i().getPreferences().getTokenDate();
 
         if(lastUse == 0L){
             logout();
@@ -157,7 +139,7 @@ public class Auth {
 
     @Nullable
     public String getToken(){
-        String token = sharedpref.getString(TOKEN, "");
+        String token = IPC_Application.i().getPreferences().getToken();
 
         if(token.equals("")){
             return null;
@@ -167,24 +149,27 @@ public class Auth {
     }
 
     private void refreshToken(String oldToken){
-        ipcProgressDialog.showIPCProgressDialog();
-        IPC_Application.i().w().refreshToken(oldToken).enqueue(new Callback<Responses<LoginContent>>() {
-            @Override
-            public void onResponse(Call<Responses<LoginContent>> call, Response<Responses<LoginContent>> response) {
-                ipcProgressDialog.hideIPCProgressDialog();
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        String token = response.body().content.token;
-                        Log.e("MY", "NEW TOKEN: "+token);
-                        setToken(token);
+        if(CheckInternetConnection.isConnected(context)){
+            ipcProgressDialog.showIPCProgressDialog();
+            IPC_Application.i().w().refreshToken(oldToken).enqueue(new Callback<Responses<LoginContent>>() {
+                @Override
+                public void onResponse(Call<Responses<LoginContent>> call, Response<Responses<LoginContent>> response) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.code() == 200){
+                        if(response.body().status == 200){
+                            String token = response.body().content.token;
+                            Log.e("MY", "NEW TOKEN: "+token);
+                            setToken(token);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
-                ipcProgressDialog.hideIPCProgressDialog();
-            }
-        });
+                @Override
+                public void onFailure(Call<Responses<LoginContent>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                }
+            });
+        }
+
     }
 }

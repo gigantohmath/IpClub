@@ -10,6 +10,7 @@ import ipclub.com.ipclub.classRoomSection.ClassRoomItem;
 import ipclub.com.ipclub.classRoomSection.classRoomLesson.ClassRoomLessonContent;
 import ipclub.com.ipclub.classRoomSection.classRoomLesson.EditLessonContent;
 import ipclub.com.ipclub.common.EmptyContent;
+import ipclub.com.ipclub.enableCourses.EnableCoursesContent;
 import ipclub.com.ipclub.loginSection.LoginContent;
 import ipclub.com.ipclub.vocabularySection.VocabularyItem;
 import ipclub.com.ipclub.common.responses.Responses;
@@ -117,6 +118,11 @@ public interface I_Requests {
     Call<Responses<DocsItemFileContent>> getDocLessonFile(
             @Path("course") String course,
             @Path("id") int id,
+            @Header("token") String token
+    );
+
+    @GET("/rest/enabledCourses")
+    Call<Responses<EnableCoursesContent>> enabledCourses(
             @Header("token") String token
     );
 }

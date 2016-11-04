@@ -8,9 +8,7 @@ import prettify.PrettifyParser;
 import syntaxhighlight.ParseResult;
 import syntaxhighlight.Parser;
 
-/**
- * Created by sench on 8/22/2016.
- */
+
 public class PrettifyHighlighter {
 
 

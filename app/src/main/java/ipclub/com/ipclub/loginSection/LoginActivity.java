@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub.common.CheckInternetConnection;
 import ipclub.com.ipclub.dashBoardSection.Dashboard;
 import ipclub.com.ipclub.*;
 
@@ -46,13 +47,18 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginButtonClick(View v){
 
         hideKeyboard();
-        String user = username.getText().toString();
-        String pass = password.getText().toString();
+        if(CheckInternetConnection.isConnected(this)){
+            String user = username.getText().toString();
+            String pass = password.getText().toString();
 
-        if(user.equals("") || pass.equals("")){
-            showError(getResources().getString(R.string.fill_all_fields));
-        }else{
-            auth.login(user, pass);
+            if(user.equals("") || pass.equals("")){
+                showError(getResources().getString(R.string.fill_all_fields));
+            }else{
+                auth.login(user, pass);
+            }
+
+        }else {
+            showError(getResources().getString(R.string.no_internet_text));
         }
 
     }

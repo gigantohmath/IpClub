@@ -23,7 +23,7 @@
     <string name="fill_all_fields">Please , fill all fields !</string>
     <string name="error_dialog_title">Oops...</string>
     <string name="something_went_wrong">Something went wrong</string>
-    <string name="no_internet_text">Where is your internet?</string>
+    <string name="no_internet_text">You are not connected to the internet</string>
     <string name="wrong_username_password">Wrong username and password combination</string>
     <string name="new_passwords_dont_match">new passwords do not match</string>
     <string name="wrong_old_password">Wrong password</string>
@@ -37,4 +37,5 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="delete_success">Deleted...</string>
+    <string name="choose_course">Available courses</string>
 </resources>

@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by sench on 8/28/2016.
- */
 public class PDFDownloader {
 
 

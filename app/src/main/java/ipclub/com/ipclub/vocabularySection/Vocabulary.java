@@ -22,11 +22,14 @@ import android.view.View;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import ipclub.com.ipclub.changePasswordSection.ChangePasswordActivity;
 import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub.common.CheckInternetConnection;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.common.NavigationItemSelector;
 import ipclub.com.ipclub.common.responses.Responses;
+import ipclub.com.ipclub.utils.IPCProgressDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -43,13 +46,14 @@ public class Vocabulary extends AppCompatActivity implements NavigationView.OnNa
 
     public static int REQUEST_CODE = 1;
     public static int RESULT_REFRESH = 10;
+    private IPCProgressDialog ipcProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vocabulary_float_layout);
         auth = new Auth(this);
-
+        ipcProgressDialog = new IPCProgressDialog(this);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -65,7 +69,6 @@ public class Vocabulary extends AppCompatActivity implements NavigationView.OnNa
         adapter = new VocabularyAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
-        initCustomLoading();
         getDataFromServer();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -93,33 +96,47 @@ public class Vocabulary extends AppCompatActivity implements NavigationView.OnNa
     }
 
     private void getDataFromServer(){
-        loading(true);
-        final String token = auth.getToken();
-        IPC_Application.i().w().vocabularyItems("Android_2016_1", 1, 9999, token).enqueue(new Callback<Responses<ArrayList<VocabularyItem>>>() {
-            @Override
-            public void onResponse(Call<Responses<ArrayList<VocabularyItem>>> call, retrofit2.Response<Responses<ArrayList<VocabularyItem>>> response) {
+        if(CheckInternetConnection.isConnected(this)){
+            ipcProgressDialog.showIPCProgressDialog();
+            final String token = auth.getToken();
+            String course =  IPC_Application.i().getPreferences().getSelectedCourse();
+            IPC_Application.i().w().vocabularyItems(course, 1, 9999, token).enqueue(new Callback<Responses<ArrayList<VocabularyItem>>>() {
+                @Override
+                public void onResponse(Call<Responses<ArrayList<VocabularyItem>>> call, retrofit2.Response<Responses<ArrayList<VocabularyItem>>> response) {
 
-                loading(false);
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        dataSet.addAll(response.body().content);
-                        adapter.notifyDataSetChanged();
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.code() == 200){
+                        if(response.body().status == 200){
+                            dataSet.addAll(response.body().content);
+                            adapter.notifyDataSetChanged();
+                        }else{
+                            showRrror(Vocabulary.this.getString(R.string.error)+":"+response.body().message);
+                        }
+
                     }else{
-                        showRrror(Vocabulary.this.getString(R.string.error)+":"+response.body().message);
+                        showRrror(Vocabulary.this.getString(R.string.something_went_wrong)+response.code());
                     }
 
-                }else{
-                    showRrror(Vocabulary.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Responses<ArrayList<VocabularyItem>>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    Log.e("MY", "error: " + t.getMessage());
+                }
+            });
+        }else{
+            showError(getResources().getString(R.string.no_internet_text));
+        }
 
-            @Override
-            public void onFailure(Call<Responses<ArrayList<VocabularyItem>>> call, Throwable t) {
-                loading(false);
-                Log.e("MY", "error: " + t.getMessage());
-            }
-        });
+    }
+
+
+    public void showError(String text) {
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(this.getString(R.string.error_dialog_title))
+                .setContentText(text)
+                .show();
     }
 
     private void initLoading(){
@@ -129,33 +146,7 @@ public class Vocabulary extends AppCompatActivity implements NavigationView.OnNa
         pLoading.setCancelable(false);
     }
 
-    private void initCustomLoading() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_progress, null);
-        dialogBuilder.setView(dialogView);
-
-        dialogBuilder.setCancelable(false);
-
-        customProgress = dialogBuilder.create();
-        customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-    }
-
-    private void loading(boolean show){
-        if (show){
-            if(customProgress == null){
-                initCustomLoading();
-            }
-            customProgress.show();
-        }else {
-            customProgress.hide();
-            customProgress.dismiss();
-            customProgress = null;
-        }
-    }
-
-    private void showRrror(String text) {
+   private void showRrror(String text) {
         new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText(Vocabulary.this.getString(R.string.error_dialog_title))
                 .setContentText(text)

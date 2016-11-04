@@ -1,16 +1,13 @@
 package ipclub.com.ipclub.changePasswordSection;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -19,6 +16,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import ipclub.com.ipclub.common.CheckInternetConnection;
 import ipclub.com.ipclub.dashBoardSection.Dashboard;
 import ipclub.com.ipclub.common.Auth;
 import ipclub.com.ipclub.common.IPC_Application;
@@ -79,32 +77,37 @@ public class ChangePasswordActivity extends AppCompatActivity
 
     @Override
     public void sendDataToServer(String[] reqParams){
-        String token = auth.getToken();
-        ipcProgressDialog.showIPCProgressDialog();
-        IPC_Application.i().w().changePassword(reqParams[0], reqParams[1], token).enqueue(new Callback<Responses<ArrayList<EmptyContent>>>() {
-            @Override
-            public void onResponse(Call<Responses<ArrayList<EmptyContent>>> call, Response<Responses<ArrayList<EmptyContent>>> response) {
-                ipcProgressDialog.hideIPCProgressDialog();
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        if (response.body().message.startsWith("Password successfully")){
-                            showSuccess();
+        if(CheckInternetConnection.isConnected(ChangePasswordActivity.this)){
+            String token = auth.getToken();
+            ipcProgressDialog.showIPCProgressDialog();
+            IPC_Application.i().w().changePassword(reqParams[0], reqParams[1], token).enqueue(new Callback<Responses<ArrayList<EmptyContent>>>() {
+                @Override
+                public void onResponse(Call<Responses<ArrayList<EmptyContent>>> call, Response<Responses<ArrayList<EmptyContent>>> response) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.code() == 200){
+                        if(response.body().status == 200){
+                            if (response.body().message.startsWith("Password successfully")){
+                                showSuccess();
+                            }
+                            Log.e("MY", response.body().message);
                         }
-                        Log.e("MY", response.body().message);
-                    }
-                    else if(response.body().status == 401){
-                        showError(ChangePasswordActivity.this.getString(R.string.wrong_old_password));
+                        else if(response.body().status == 401){
+                            showError(ChangePasswordActivity.this.getString(R.string.wrong_old_password));
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Responses<ArrayList<EmptyContent>>> call, Throwable t) {
-                ipcProgressDialog.hideIPCProgressDialog();
-                showError(t.getMessage()+"");
-                Log.e("MY", t.getMessage()+"");
-            }
-        });
+                @Override
+                public void onFailure(Call<Responses<ArrayList<EmptyContent>>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    showError(t.getMessage()+"");
+                    Log.e("MY", t.getMessage()+"");
+                }
+            });
+        }else{
+            showError(getResources().getString(R.string.no_internet_text));
+        }
+
     }
 
     public void onLogoutImageClick(View v){

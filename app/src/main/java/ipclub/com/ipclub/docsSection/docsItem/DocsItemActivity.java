@@ -2,7 +2,6 @@ package ipclub.com.ipclub.docsSection.docsItem;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,9 +9,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -35,6 +32,7 @@ import java.util.ArrayList;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.changePasswordSection.ChangePasswordActivity;
+import ipclub.com.ipclub.common.CheckInternetConnection;
 import ipclub.com.ipclub.utils.IPCProgressDialog;
 import ipclub.com.ipclub.vocabularySection.Vocabulary;
 import ipclub.com.ipclub.docsSection.DocsActivity;
@@ -53,7 +51,7 @@ public class DocsItemActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,I_CommonMethodsForWorkingWithServer{
     private Auth auth;
     private static PDFView pdfView;
-    public final String folderDir = "IPClub";
+    public final String folderDir = "IPClub"+File.separator+IPC_Application.i().getPreferences().getSelectedCourse();
     private static Context context;
     private SweetAlertDialog dialog;
     private  NavigationView navigationView;
@@ -181,144 +179,153 @@ public class DocsItemActivity extends AppCompatActivity
     }
 
     public void getDocExampleFromServer(int a){
-        final int temp = a;
-        ipcProgressDialog.showIPCProgressDialog();
-        final String token = auth.getToken();
-        Log.d("MYTOKEN",token);
-        IPC_Application.i().w().getDocLesson("Android_2016_1", a, token).enqueue(new Callback<Responses<docsItemContent>>() {
-            @Override
-            public void onResponse(Call<Responses<docsItemContent>> call, retrofit2.Response<Responses<docsItemContent>> response) {
+        if(CheckInternetConnection.isConnected(this)){
+            ipcProgressDialog.showIPCProgressDialog();
+            final String token = auth.getToken();
+            Log.d("MYTOKEN",token);
+            String course =  IPC_Application.i().getPreferences().getSelectedCourse();
+            IPC_Application.i().w().getDocLesson(course, a, token).enqueue(new Callback<Responses<docsItemContent>>() {
+                @Override
+                public void onResponse(Call<Responses<docsItemContent>> call, retrofit2.Response<Responses<docsItemContent>> response) {
 
-                ipcProgressDialog.hideIPCProgressDialog();
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        final ArrayList<docsItemContentClassrooms> classRooms = response.body().content.classrooms;
-                        ArrayList<docsItemContentFiles> files = response.body().content.files;
-                        menu = navigationView.getMenu();
-                        if(classRooms.size()>0){
-                             subMenu = menu.addSubMenu("Classrooms");
-                            for (int i = 0; i < classRooms.size(); i++) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.code() == 200){
+                        if(response.body().status == 200){
+                            final ArrayList<docsItemContentClassrooms> classRooms = response.body().content.classrooms;
+                            ArrayList<docsItemContentFiles> files = response.body().content.files;
+                            menu = navigationView.getMenu();
+                            if(classRooms.size()>0){
+                                subMenu = menu.addSubMenu("Classrooms");
+                                for (int i = 0; i < classRooms.size(); i++) {
 
-                                subMenu.add(classRooms.get(i).title);
-                                tempIDfromDocNavToClassRoomLesson = classRooms.get(i).id;
-                                subMenu.getItem(i).setIcon(R.drawable.classroom_nav);
-                                subMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                                    @Override
-                                    public boolean onMenuItemClick(MenuItem menuItem) {
-                                        Intent toDocsItemActivty = new Intent(DocsItemActivity.this, ClassRoomLessonActivity.class);
-                                        toDocsItemActivty.putExtra("id",tempIDfromDocNavToClassRoomLesson);
-                                        startActivity(toDocsItemActivty);
-                                        return true;
+                                    subMenu.add(classRooms.get(i).title);
+                                    tempIDfromDocNavToClassRoomLesson = classRooms.get(i).id;
+                                    subMenu.getItem(i).setIcon(R.drawable.classroom_nav);
+                                    subMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem menuItem) {
+                                            Intent toDocsItemActivty = new Intent(DocsItemActivity.this, ClassRoomLessonActivity.class);
+                                            toDocsItemActivty.putExtra("id",tempIDfromDocNavToClassRoomLesson);
+                                            startActivity(toDocsItemActivty);
+                                            return true;
+                                        }
+                                    });
+                                }
+
+                            }
+
+
+                            if(files.size()!=0){
+                                subMenu = menu.addSubMenu("Files");
+
+                                if(files.size()==1){
+
+                                    getDocExampleFileFromServer(response.body().content.files.get(0).id,0);
+
+                                }
+
+                                else{
+                                    getDocExampleFileFromServer(response.body().content.files.get(0).id,0);
+                                    for(int i=1;i<files.size();i++){
+
+                                        subMenu.add("TempTitle" + i);
                                     }
-                                });
-                            }
 
-                        }
+                                    for(int i=1;i<files.size();i++){
 
+                                        getDocExampleFileFromServer(response.body().content.files.get(i).id,i);
+                                    }
 
-                        if(files.size()!=0){
-                            subMenu = menu.addSubMenu("Files");
-
-                            if(files.size()==1){
-
-                                getDocExampleFileFromServer(response.body().content.files.get(0).id,0);
-
-                            }
-
-                            else{
-                                getDocExampleFileFromServer(response.body().content.files.get(0).id,0);
-                                for(int i=1;i<files.size();i++){
-
-                                    subMenu.add("TempTitle" + i);
                                 }
 
-                                for(int i=1;i<files.size();i++){
 
-                                    getDocExampleFileFromServer(response.body().content.files.get(i).id,i);
-                                }
+
+
 
                             }
-
-
-
-
-
+                        }else{
+                            showError("Error: "+response.body().message);
                         }
+
                     }else{
-                        showError("Error: "+response.body().message);
+                        showError("Something went wrong. "+response.code());
                     }
 
-                }else{
-                    showError("Something went wrong. "+response.code());
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Responses<docsItemContent>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    Log.e("MY", "error: " + t.getMessage());
+                }
+            });
+        }else{
+            showError(getResources().getString(R.string.no_internet_text));
+        }
 
-            @Override
-            public void onFailure(Call<Responses<docsItemContent>> call, Throwable t) {
-                ipcProgressDialog.hideIPCProgressDialog();
-                Log.e("MY", "error: " + t.getMessage());
-            }
-        });
 
 
     }
     public void getDocExampleFileFromServer(int a, final int position){
-        final int temp = a;
-        final String token = auth.getToken();
+        if(CheckInternetConnection.isConnected(this)){
+            final String token = auth.getToken();
+            String course =  IPC_Application.i().getPreferences().getSelectedCourse();
+            IPC_Application.i().w().getDocLessonFile(course, a,token).enqueue(new Callback<Responses<DocsItemFileContent>>() {
+                @Override
+                public void onResponse(Call<Responses<DocsItemFileContent>> call, Response<Responses<DocsItemFileContent>> response) {
 
-        IPC_Application.i().w().getDocLessonFile("Android_2016_1", a,token).enqueue(new Callback<Responses<DocsItemFileContent>>() {
-            @Override
-            public void onResponse(Call<Responses<DocsItemFileContent>> call, Response<Responses<DocsItemFileContent>> response) {
+                    if(response.code() == 200){
+                        if(response.body().status == 200){
+                            DocsItemFileContent content = response.body().content;
+                            if(position==0){
+                                showOrDownload=false;
+                                link = response.body().content.link;
+                                AsyncPDFDownload  apd = new AsyncPDFDownload();
+                                apd.execute();
+                            }
 
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        DocsItemFileContent content = response.body().content;
-                        if(position==0){
-                            showOrDownload=false;
-                           link = response.body().content.link;
-                           AsyncPDFDownload  apd = new AsyncPDFDownload();
-                            apd.execute();
+                            else{
+                                tempLinkFromDocNavToIntentChooser = content.link;
+                                subMenu.getItem(position-1).setTitle(content.title);
+                                subMenu.getItem(position-1).setIcon(R.drawable.external_link);
+                                subMenu.getItem(position-1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                        Uri webpage = Uri.parse(tempLinkFromDocNavToIntentChooser);
+                                        Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                                        startActivity(webIntent);
+                                        return true;
+                                    }
+                                });
+
+                            }
+
+
                         }
 
                         else{
-                            tempLinkFromDocNavToIntentChooser = content.link;
-                            subMenu.getItem(position-1).setTitle(content.title);
-                            subMenu.getItem(position-1).setIcon(R.drawable.external_link);
-                            subMenu.getItem(position-1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                                @Override
-                                public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                    Uri webpage = Uri.parse(tempLinkFromDocNavToIntentChooser);
-                                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-                                    startActivity(webIntent);
-                                    return true;
-                                }
-                            });
-
+                            showError("Error: "+response.body().message);
                         }
-
 
                     }
 
                     else{
+                        showError("Something went wrong. "+response.code());
 
-                        showError("Error: "+response.body().message);
                     }
-
                 }
 
-                else{
-                    showError("Something went wrong. "+response.code());
-
+                @Override
+                public void onFailure(Call<Responses<DocsItemFileContent>> call, Throwable t) {
+                    Log.e("MY", "error: " + t.getMessage());
                 }
-            }
+            });
+        }else{
+            showError(getResources().getString(R.string.no_internet_text));
+        }
 
-            @Override
-            public void onFailure(Call<Responses<DocsItemFileContent>> call, Throwable t) {
-                Log.e("MY", "error: " + t.getMessage());
-            }
-        });
     }
 
 
@@ -334,7 +341,10 @@ public class DocsItemActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            File dir = new File(Environment.getExternalStorageDirectory(), folderDir);
+            File dir = new File(Environment.getExternalStorageDirectory(),folderDir);
+            if (!dir.exists()){
+                dir.mkdirs();
+            }
             File file = new File(dir, takeTheNameOfFile(localLink));
             if(!showOrDownload){
 
@@ -356,7 +366,7 @@ public class DocsItemActivity extends AppCompatActivity
         localLink=s;
         File dir = new File(Environment.getExternalStorageDirectory(), folderDir);
         if (!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
             File file = new File(dir, takeTheNameOfFile(s));
             try {
                 file.createNewFile();

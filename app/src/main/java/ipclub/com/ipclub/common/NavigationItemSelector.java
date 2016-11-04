@@ -10,9 +10,6 @@ import ipclub.com.ipclub.vocabularySection.Vocabulary;
 import ipclub.com.ipclub.docsSection.DocsActivity;
 import ipclub.com.ipclub.classRoomSection.ClassRoomActivity;
 
-/**
- * Created by User on 11.09.2016.
- */
 public class NavigationItemSelector {
     private SweetAlertDialog dialog;
     private Context c;

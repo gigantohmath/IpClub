@@ -1,7 +1,6 @@
 package ipclub.com.ipclub.classRoomSection.classRoomLesson;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,14 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub.common.CheckInternetConnection;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.common.I_CommonMethodsForWorkingWithServer;
 import ipclub.com.ipclub.common.NavigationItemSelector;
@@ -51,37 +49,43 @@ public class ClassRoomLessonActivity extends AppCompatActivity
         getDataFromServerX(intValue);
     }
     public void getDataFromServerX(int a){
-        ipcProgressDialog.showIPCProgressDialog();
-        final String token = auth.getToken();
-        Log.e("MYTOKEN",token);
-        IPC_Application.i().w().classRoomLessons("Android_2016_1", a, token).enqueue(new Callback<Responses<ClassRoomLessonContent>>() {
-            @Override
-            public void onResponse(Call<Responses<ClassRoomLessonContent>> call, retrofit2.Response<Responses<ClassRoomLessonContent>> response) {
+        if(CheckInternetConnection.isConnected(this)){
+            ipcProgressDialog.showIPCProgressDialog();
+            final String token = auth.getToken();
+            Log.e("MYTOKEN",token);
+            String course =  IPC_Application.i().getPreferences().getSelectedCourse();
+            IPC_Application.i().w().classRoomLessons(course, a, token).enqueue(new Callback<Responses<ClassRoomLessonContent>>() {
+                @Override
+                public void onResponse(Call<Responses<ClassRoomLessonContent>> call, retrofit2.Response<Responses<ClassRoomLessonContent>> response) {
 
-                ipcProgressDialog.hideIPCProgressDialog();
-                if(response.code() == 200){
-                    if(response.body().status == 200){
-                        PrettifyHighlighter highlighter = new PrettifyHighlighter();
-                        String highlighted = highlighter.highlight("java", response.body().content.content);
-                        content.setText(Html.fromHtml(highlighted));
-                        lessonTitle.setText(response.body().content.lessonTitle);
-                        title.setText(response.body().content.title);
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    if(response.code() == 200){
+                        if(response.body().status == 200){
+                            PrettifyHighlighter highlighter = new PrettifyHighlighter();
+                            String highlighted = highlighter.highlight("java", response.body().content.content);
+                            content.setText(Html.fromHtml(highlighted));
+                            lessonTitle.setText(response.body().content.lessonTitle);
+                            title.setText(response.body().content.title);
+                        }else{
+                            showError(ClassRoomLessonActivity.this.getString(R.string.error)+":"+response.body().message);
+                        }
+
                     }else{
-                        showError(ClassRoomLessonActivity.this.getString(R.string.error)+":"+response.body().message);
+                        showError(ClassRoomLessonActivity.this.getString(R.string.something_went_wrong)+response.code());
                     }
 
-                }else{
-                    showError(ClassRoomLessonActivity.this.getString(R.string.something_went_wrong)+response.code());
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Responses<ClassRoomLessonContent>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    Log.e("MY", "error: " + t.getMessage());
+                }
+            });
+        }else {
+            showError(getResources().getString(R.string.no_internet_text));
+        }
 
-            @Override
-            public void onFailure(Call<Responses<ClassRoomLessonContent>> call, Throwable t) {
-                ipcProgressDialog.hideIPCProgressDialog();
-                Log.e("MY", "error: " + t.getMessage());
-            }
-        });
 
 
     }

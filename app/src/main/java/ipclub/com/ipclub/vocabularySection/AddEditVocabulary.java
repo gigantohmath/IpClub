@@ -13,11 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import ipclub.com.ipclub.R;
 import ipclub.com.ipclub.common.Auth;
+import ipclub.com.ipclub.common.CheckInternetConnection;
 import ipclub.com.ipclub.common.IPC_Application;
 import ipclub.com.ipclub.common.NavigationItemSelector;
 import ipclub.com.ipclub.common.responses.Responses;
+import ipclub.com.ipclub.utils.IPCProgressDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +30,7 @@ public class AddEditVocabulary extends AppCompatActivity implements NavigationVi
     EditText title;
     EditText trans;
     Auth auth;
-    AlertDialog customProgress;
+    private IPCProgressDialog ipcProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,62 +40,51 @@ public class AddEditVocabulary extends AppCompatActivity implements NavigationVi
         NavigationView navigationView = (NavigationView) findViewById(R.id.add_vocabulary_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ipcProgressDialog = new IPCProgressDialog(this);
         auth = new Auth(this);
-        initCustomLoading();
 
         title = (EditText) findViewById(R.id.title);
         trans = (EditText) findViewById(R.id.trans);
     }
 
     public void saveVoc(View v){
-        String titleStr = title.getText().toString();
-        String transStr = trans.getText().toString();
-        String token = auth.getToken();
-        loading(true);
-        IPC_Application.i().w().addVocItem(titleStr, transStr, "Android_2016_1", token).enqueue(new Callback<Responses<VocabularyItem>>() {
-            @Override
-            public void onResponse(Call<Responses<VocabularyItem>> call, Response<Responses<VocabularyItem>> response) {
-                loading(false);
-                setResult(10);
-                finish();
-            }
+        if(CheckInternetConnection.isConnected(this)){
+            String titleStr = title.getText().toString();
+            String transStr = trans.getText().toString();
+            String token = auth.getToken();
+            ipcProgressDialog.showIPCProgressDialog();
+            String course =  IPC_Application.i().getPreferences().getSelectedCourse();
+            IPC_Application.i().w().addVocItem(titleStr, transStr, course, token).enqueue(new Callback<Responses<VocabularyItem>>() {
+                @Override
+                public void onResponse(Call<Responses<VocabularyItem>> call, Response<Responses<VocabularyItem>> response) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                    setResult(10);
+                    finish();
+                }
 
-            @Override
-            public void onFailure(Call<Responses<VocabularyItem>> call, Throwable t) {
-                loading(false);
-            }
-        });
+                @Override
+                public void onFailure(Call<Responses<VocabularyItem>> call, Throwable t) {
+                    ipcProgressDialog.hideIPCProgressDialog();
+                }
+            });
+        }else{
+            showError(getResources().getString(R.string.no_internet_text));
+        }
+
+    }
+
+    public void showError(String text) {
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(text)
+                .show();
     }
 
     public void backToList(View v) {
         finish();
     }
 
-    private void initCustomLoading() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_progress, null);
-        dialogBuilder.setView(dialogView);
-
-        dialogBuilder.setCancelable(false);
-
-        customProgress = dialogBuilder.create();
-        customProgress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-    }
-
-    private void loading(boolean show){
-        if (show){
-            if(customProgress == null){
-                initCustomLoading();
-            }
-            customProgress.show();
-        }else {
-            customProgress.hide();
-            customProgress.dismiss();
-            customProgress = null;
-        }
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

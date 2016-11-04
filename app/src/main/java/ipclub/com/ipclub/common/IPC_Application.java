@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import ipclub.com.ipclub.common.requests.I_Requests;
 import ipclub.com.ipclub.common.network.JacksonConverterFactory;
+import ipclub.com.ipclub.utils.PrefManager;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,13 +15,17 @@ public class IPC_Application extends Application{
 
     private static IPC_Application instance;
     private I_Requests iWebEndpoint;
+    private PrefManager prefManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
     }
-
+    public PrefManager getPreferences(){
+        prefManager = new PrefManager(this);
+        return prefManager;
+    }
     public static IPC_Application i() {
         return instance;
     }

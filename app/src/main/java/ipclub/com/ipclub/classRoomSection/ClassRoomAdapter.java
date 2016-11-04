@@ -11,9 +11,7 @@ import java.util.List;
 
 import ipclub.com.ipclub.R;
 
-/**
- * Created by sench on 8/22/2016.
- */
+
 public class ClassRoomAdapter extends RecyclerView.Adapter<ClassRoomAdapter.ClassRoomViewHolder> {
     private static List<ClassRoomItem> classRoomItems;
     private static Context context;

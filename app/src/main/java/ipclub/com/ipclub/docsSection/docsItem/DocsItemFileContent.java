@@ -2,9 +2,7 @@ package ipclub.com.ipclub.docsSection.docsItem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by sench on 8/28/2016.
- */
+
 public class DocsItemFileContent {
 
 

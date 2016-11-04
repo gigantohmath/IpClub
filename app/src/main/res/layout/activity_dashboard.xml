@@ -192,63 +192,64 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="5"
-        android:background="#d6cab6" >
+         >
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoneffect4"
-            android:layout_marginRight="1dp"
-            android:clickable="true"
-            android:visibility="gone">
+            android:orientation="horizontal">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:background="@drawable/buttoneffect4"
+                android:clickable="true"
+                android:onClick="chooseCourse" >
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="1dp"
+                    android:background="@drawable/up"
+                     />
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="32dp"
-                android:id="@+id/imageView2"
-                android:layout_gravity="center"
-                android:background="@drawable/user" />
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/course_name"
+                   android:layout_marginLeft="5dp"
+                   android:text="Android_2016_1"
+                   android:textColor="@color/lightGrey"
+                   android:textSize="20sp"/>
 
-            <TextView
-                android:textSize="15dp"
-                android:textColor="@color/white"
-                android:text="MyProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView4"
-                android:layout_gravity="bottom|center"
-                android:layout_marginTop="12dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttoneffect4"
+                android:clickable="true"
+                android:onClick="onLogoutImageClick" >
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageView5"
+                    android:layout_gravity="center"
+                    android:background="@drawable/logut"
+                    android:layout_marginTop="5dp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoneffect4"
-            android:clickable="true"
-            android:onClick="onLogoutImageClick" >
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageView5"
-                android:layout_gravity="center"
-                android:background="@drawable/logut"
-                android:layout_marginTop="5dp" />
-
-            <TextView
-                android:textSize="15dp"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:text="Logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView5"
-                android:layout_marginTop="9dp" />
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
